@@ -1,9 +1,12 @@
-package com.example.springSamples;
+package com.example.springSamples.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.example.springSamples.services.CalculatorService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
@@ -51,7 +54,6 @@ public class CalculatorController {
     public String evaluate(
             @RequestParam(name = "exp", required = false, defaultValue = "12*3=") String expression,
             Model myView) {
-                System.out.println(expression);
         int n1 = 0;
         int n2 = 0;
         String op = "+";
