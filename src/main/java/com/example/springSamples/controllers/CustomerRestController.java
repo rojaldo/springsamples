@@ -1,8 +1,11 @@
 package com.example.springSamples.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.example.springSamples.entities.CustomerEntity;
 import com.example.springSamples.repositories.CustomerRepository;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.websocket.server.PathParam;
 
 @RestController
@@ -44,16 +48,20 @@ public class CustomerRestController {
     }
 
     @PostMapping("/customers")
-    public CustomerEntity createCustomer(@RequestBody CustomerEntity customer) {
+    public CustomerEntity createCustomer(@RequestBody CustomerEntity customer, HttpServletResponse response) {
         // check if customer exists
         CustomerEntity myCustomer = repository.findByEmail(customer.getEmail());
         if (myCustomer != null) {
             // return 409
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "entity already exists");
-        }{
-            // return 201
-            return repository.save(customer);
+            // throw new ResponseStatusException(HttpStatus.CONFLICT, "entity already exists");
+            // throw new BRException();
+            GlobalControllerExceptionHandler handler = new GlobalControllerExceptionHandler();
+            handler.handleConflictRepetedEmail();
         }
+            // return 201
+            response.setStatus(HttpServletResponse.SC_CREATED);
+            return repository.save(customer);
+        
     }
 
     @PutMapping("/customers")
@@ -85,6 +93,23 @@ public class CustomerRestController {
     class BRException extends RuntimeException {
         public BRException() {
             super("Bad Request");
+        }
+    }
+
+    @ResponseStatus(code = HttpStatus.CONFLICT)
+    class CRException extends RuntimeException {
+        public CRException(String message) {
+            super(message);
+        }
+    }
+
+    @ControllerAdvice
+    class GlobalControllerExceptionHandler {
+        @ResponseStatus(HttpStatus.CONFLICT) // 409
+        @ExceptionHandler(DataIntegrityViolationException.class)
+        public void handleConflictRepetedEmail() {
+            throw new CRException("Email already exists");
+
         }
     }
 }
