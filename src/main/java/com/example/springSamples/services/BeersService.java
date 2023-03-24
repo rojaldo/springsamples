@@ -46,5 +46,17 @@ public class BeersService {
     }
 
 
+    public Iterable<BeerEntity> getBeersByAbv(double abvGtDouble, double abvLtDouble) {
+        List<BeerEntity> result = new ArrayList<BeerEntity>();
+        Iterable<BeerEntity> beers = beersRepository.findAll();
+        for(BeerEntity beer : beers) {
+            if (beer.getAbv() > abvGtDouble && beer.getAbv() < abvLtDouble) {
+                result.add(beer);
+            }
+        }
+        return result;
+    }
+
+
     
 }
