@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.annotation.Generated;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -22,9 +23,13 @@ public class BeerEntity{
 
     private String name;
     private String tagline;
+
     @JsonProperty("first_brewed")
     private String firstBrewed;
+
+    @Column(columnDefinition = "LONGTEXT")
     private String description;
+
     @JsonProperty("image_url")
     private String imageUrl;
     private double abv;
