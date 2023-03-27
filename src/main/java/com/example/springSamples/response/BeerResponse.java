@@ -24,18 +24,22 @@ public class BeerResponse{
     @JsonProperty("image_url")
     private String imageUrl;
     private double abv;
+    private double ibu;
+    private double ebc;
 
     public BeerResponse() {
     }
 
     public BeerResponse(int id, String name, String tagline, String firstBrewed, String description, String imageUrl,
-            double abv) {
+            double abv, double ibu, double ebc) {
         this.name = name;
         this.tagline = tagline;
         this.firstBrewed = firstBrewed;
         this.description = description;
         this.imageUrl = imageUrl;
         this.abv = abv;
+        this.ibu = ibu;
+        this.ebc = ebc;
     }
 
     @Override
@@ -60,6 +64,14 @@ public class BeerResponse{
 
     public double getAbv() {
         return abv;
+    }
+
+    public double getIbu() {
+        return ibu;
+    }
+
+    public double getEbc() {
+        return ebc;
     }
 
     public String getDescription() {

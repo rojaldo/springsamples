@@ -1,0 +1,1400 @@
+:source-highlighter: highlightjs
+
+= Spring Framework
+
+== Índice de contenidos
+
+* Introducción al Framework Spring
+** Visión general del Framework Spring Boot
+** Arquitectura de Spring Boot
+** Módulos de Spring Boot
+** Ventajas del Framework Spring Boot
+
+* Creación de proyectos con Spring Boot
+** Configuración de Spring Boot
+** Creación de un proyecto Spring Boot con Spring Initializr
+** Spring Boot con Maven 
+** Spring Boot con Gradle 
+
+* Spring Core
+** Visión general de Spring Core
+** Inyección de dependencias (DI)
+** Inversión de control (IoC)
+** Principales anotaciones de Spring Core
+
+* Spring Web
+** Visión general de Spring Web
+** Anotaciones de Spring Web
+** Creación de aplicaciones web con Spring Web
+
+* Spring Data
+** Visión general de Spring Data
+** Spring Data JPA
+** Acceso a bases de datos relacionales y NoSQL
+
+* Spring MVC
+** Visión general de Spring MVC
+** Construyendo una aplicación Spring MVC
+** Componentes de controlador y vista
+
+* Spring Integration
+** Integrando Spring con Hibernate
+** Integrando Spring con bases de datos: H2, MySQL, NoSQL
+** Integrando Spring con Sesiones
+** Integrando Spring con servicios web RESTful
+
+* Programación orientada a aspectos (AOP)
+** Entendiendo la AOP
+** Implementando AOP usando Spring
+** POA con Spring Security
+
+* Pruebas y despliegue
+** Pruebas de aplicaciones Spring
+** Despliegue de aplicaciones Spring
+** Optimización de rendimiento de aplicaciones Spring
+
+* Spring Security
+** Visión general de Spring Security
+** Autenticación y autorización
+** Seguridad de aplicaciones web
+
+* Spring Batch
+** Visión general de Spring Batch
+** Arquitectura de Spring Batch
+** Spring Batch con Spring MVC
+
+* Spring Web Flow
+** Visión general de Spring Web Flow
+** Arquitectura de Spring Web Flow
+** Spring Web Flow con Spring MVC
+
+== Introducción al Framework Spring
+
+Spring Framework es un framework de código abierto para el desarrollo de aplicaciones empresariales en Java. Fue creado por Rod Johnson en 2002. 
+
+El framework se basa en la inversión de control (IoC) y la inyección de dependencias (DI), lo que permite una separación clara entre la lógica de la aplicación y la infraestructura subyacente. Esto permite a los desarrolladores centrarse en la lógica de negocio de la aplicación, sin tener que preocuparse por la infraestructura subyacente. 
+
+Spring Boot es un framework de Java que se basa en Spring Framework y se utiliza para desarrollar aplicaciones web y móviles de manera rápida y sencilla. Fue creado en 203 por Pivotal Software y se ha convertido en una de las herramientas más populares para el desarrollo de aplicaciones empresariales en Java.
+
+=== Visión general del Framework Spring
+
+Spring Boot es un framework de Java diseñado para facilitar el desarrollo de aplicaciones empresariales de manera rápida y sencilla. Este framework se basa en Spring Framework, pero se diferencia en que utiliza una estrategia de "opiniónated" para la configuración y un enfoque de "convención sobre configuración" que reduce la cantidad de código que los desarrolladores necesitan escribir.
+
+Una de las principales características de Spring Boot es la configuración automática, que simplifica la configuración de la aplicación al eliminar la necesidad de configuración manual. Spring Boot utiliza anotaciones y metadatos para configurar automáticamente la aplicación, lo que permite a los desarrolladores centrarse en la lógica de la aplicación en lugar de la configuración.
+
+Además, Spring Boot es altamente modular y se integra fácilmente con otros frameworks y tecnologías. Esto significa que los desarrolladores pueden utilizar diferentes tecnologías según sus necesidades sin tener que preocuparse por la compatibilidad y la configuración.
+
+Otra característica importante de Spring Boot es su capacidad para crear aplicaciones autocontenidas y ejecutables en un solo archivo JAR. Esto significa que las aplicaciones se pueden desplegar fácilmente en diferentes entornos sin tener que preocuparse por las dependencias y configuraciones externas.
+
+En resumen, Spring Boot es un framework eficiente que simplifica el desarrollo de aplicaciones empresariales en Java. 
+
+=== Arquitectura de Spring Boot
+
+La arquitectura de Spring Boot se basa en el framework Spring, que sigue el patrón de diseño de inversión de control (IoC) y el principio de “convención sobre configuración”. Spring Boot utiliza anotaciones para definir las capas de la aplicación, como Repository, Service y Component. Estas anotaciones permiten a Spring Boot crear automáticamente los objetos necesarios y establecer las dependencias entre ellos. Además, Spring Boot ofrece una serie de herramientas para facilitar el desarrollo, como los starters, que son dependencias predefinidas para diferentes tipos de proyectos, o el autoconfigurador, que adapta la configuración según las dependencias disponibles. Con Spring Boot se puede crear una aplicación autoejecutable que contiene un servidor web embebido.
+
+
+=== Módulos de Spring Boot
+
+Spring Framework se compone de varios módulos que ofrecen diferentes servicios y funcionalidades. Algunos de los paquetes más importantes de Spring Framework son:
+
+* Spring Core: proporciona soporte para la inversión de control (IoC) y la inyección de dependencias (DI).
+* Spring JDBC: proporciona soporte para la conexión con bases de datos relacionales.
+* Spring ORM: proporciona soporte para la conexión con bases de datos relacionales y NoSQL.
+* Spring Web: proporciona soporte para la creación de aplicaciones web.
+* Spring MVC: proporciona soporte para la creación de aplicaciones web basadas en el patrón de diseño MVC.
+* Spring AOP: proporciona soporte para la programación orientada a aspectos (AOP).
+*Spring Session: proporciona soporte para la gestión de sesiones.
+* Spring Security: proporciona soporte para la seguridad de aplicaciones web.
+* Spring Batch: proporciona soporte para la creación de aplicaciones de procesamiento de lotes.
+* Spring Web Flow: proporciona soporte para la creación de aplicaciones web basadas en el patrón de diseño de flujo de trabajo.
+* Spring Integration: proporciona soporte para la integración con otras tecnologías y frameworks.
+* Spring Data: proporciona soporte para la conexión con bases de datos relacionales y NoSQL.
+* Spring Test: proporciona soporte para la creación de pruebas unitarias y de integración.
+* Spring Boot: proporciona soporte para la creación de aplicaciones autocontenidas y ejecutables en un solo archivo JAR.
+* Spring Cloud: proporciona soporte para la creación de aplicaciones basadas en microservicios.
+
+=== Ventajas del Framework Spring Boot
+
+.Ventajas de Spring Boot frente a Spring Framework
+* *Configuración automática*: Spring Boot utiliza una estrategia de configuración automática, lo que significa que configura la aplicación de manera predeterminada y elimina la necesidad de escribir código de configuración manual.
+
+* *Menos código*: Spring Boot permite a los desarrolladores crear aplicaciones con menos código en comparación con Spring Framework. Esto se debe a que Spring Boot viene con configuraciones predefinidas y dependencias incorporadas.
+
+* *Integración simplificada*: Spring Boot simplifica la integración con otras tecnologías y frameworks.
+
+* *Enfoque de "opinionated"*: lo que significa que proporciona soluciones predefinidas para la mayoría de los casos de uso comunes.
+
+* *Microservicios*: Spring Boot es ideal para el desarrollo de aplicaciones de microservicios, lo que significa que los desarrolladores pueden crear aplicaciones modulares y escalables que sean fáciles de mantener y actualizar.
+
+* *Despliegue sencillo*: Spring Boot permite a los desarrolladores crear aplicaciones autocontenidas y ejecutables en un solo archivo JAR. Esto significa que las aplicaciones se pueden desplegar fácilmente en diferentes entornos sin tener que preocuparse por las dependencias y configuraciones externas.
+
+== Creación de aplicaciones Spring Boot
+
+Spring Boot es un framework de Java que se utiliza para crear aplicaciones autocontenidas y ejecutables en un solo archivo JAR. Este framework se basa en Spring Framework, pero se diferencia en que utiliza una estrategia de "opiniónated" para la configuración y un enfoque de "convención sobre configuración" que reduce la cantidad de código que los desarrolladores necesitan escribir.
+
+=== Creación de una aplicación Spring Boot
+
+Para crear una aplicación Spring Boot, hay que seguir los siguientes pasos:
+
+- Instalar Spring Boot: puedes usar Spring Boot Starter, que es un Eclipse con Spring Boot integrado, o instalar Spring Tools en tu IDE preferido.
+- Crear un proyecto: puedes usar el asistente de Spring Boot para generar un proyecto con las dependencias y la configuración necesarias, o usar el sitio web https://start.spring.io/ para descargar un proyecto inicializado.
+- Desarrollar los servicios: puedes crear clases Java con anotaciones de Spring para definir los controladores, los servicios y los repositorios que componen tu aplicación. También puedes usar otras tecnologías como Thymeleaf o JPA para crear vistas o acceder a bases de datos.
+- Probar la aplicación: puedes ejecutar la aplicación desde tu IDE o desde la línea de comandos usando el comando `mvn spring-boot:run` o `java -jar nombre-del-archivo.jar`. Luego puedes acceder a la aplicación desde tu navegador usando la dirección http://localhost:8080/.
+
+=== Creación de una aplicación Spring Boot con Spring Initializr
+
+Para crear una aplicación Spring Boot con Spring Initializr, puedes seguir estos pasos:
+
+- Accede al sitio web https://start.spring.io/.
+- Elige si quieres usar Maven o Gradle para la construcción de tu proyecto.
+- Especifica la versión de Spring Boot y de Java que quieres usar.
+- Introduce los datos de tu proyecto, como el grupo, el artefacto, el nombre y la descripción.
+- Selecciona las dependencias que necesitas para tu aplicación. Puedes buscarlas por nombre o por categoría.
+- Haz clic en Generate para descargar el proyecto en un archivo ZIP.
+- Extrae los archivos del ZIP en una carpeta local y abre el proyecto con tu IDE preferido.
+
+=== Spring Boot con Maven
+
+Para gestionar las tareas de compilación, ejecución, limpieza y testing en Spring Boot con Maven, puedes usar los siguientes comandos:
+
+- Para compilar tu aplicación, usa el comando `mvn compile`.
+- Para ejecutar tu aplicación, usa el comando `mvn spring-boot:run`. Asegúrate de estar en la carpeta del archivo JAR que se encuentra en la carpeta "target".
+- Para limpiar tu proyecto, usa el comando `mvn clean`. Esto eliminará los archivos generados por la compilación.
+- Para realizar los tests de tu aplicación, usa el comando `mvn test`. Puedes usar las anotaciones y funcionalidades que te proporciona Spring Boot para crear tests unitarios e integrados.
+
+.-El archivo POM de tu proyecto debe tener las siguientes dependencias:
+[source,xml]
+----
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+----
+
+=== Spring Boot con Gradle
+
+Para gestionar las tareas de compilación, ejecución, limpieza y testing en Spring Boot con Gradle, puedes usar los siguientes comandos:
+
+- Para compilar tu aplicación, usa el comando `gradle build`. Este comando descargará las dependencias, construirá las clases, ejecutará los tests y empaquetará las clases en un archivo JAR.
+- Para ejecutar tu aplicación, usa el comando `gradle bootRun`. Este comando ejecutará tu aplicación en forma explosionada.
+- Para limpiar tu proyecto, usa el comando `gradle clean`. Este comando eliminará los archivos generados por la compilación.
+- Para realizar los tests de tu aplicación, usa el comando `gradle test`. Puedes usar las anotaciones y funcionalidades que te proporciona Spring Boot para crear tests unitarios e integrados.
+
+.El archivo build.gradle de tu proyecto debe tener las siguientes dependencias:
+[source,gradle]
+----
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+}
+----
+
+== Spring Core
+
+=== Visión general de Spring Core
+
+Spring Core es el módulo central del framework Spring que proporciona las funcionalidades básicas para el desarrollo de aplicaciones Java empresariales. Spring Core se basa en el concepto de **inyección de dependencias**, que es un patrón de diseño que permite desacoplar los componentes de una aplicación y facilitar su configuración, reutilización y testing. Spring Core también ofrece otras características como el soporte para anotaciones, la gestión del ciclo de vida de los objetos, la integración con otras tecnologías y el acceso a recursos externos.
+
+Spring Core es el motor del framework Spring y el fundamento sobre el que se construyen los demás módulos. Conocer Spring Core te permitirá aprovechar todo el potencial de esta plataforma para crear aplicaciones profesionales, escalables y mantenibles.
+
+=== Inyección de dependencias
+
+La inyección de dependencias en Spring Core es un patrón de diseño que permite que los objetos no sean responsables de crear e inicializar sus dependencias, sino que estas sean provistas por otro objeto. En el caso de Spring, ese objeto es el **contenedor IoC**, que es el encargado de gestionar el ciclo de vida y la configuración de los objetos que forman parte de la aplicación.
+
+La inyección de dependencias en Spring Core se puede realizar mediante diferentes modos, como el uso de anotaciones, archivos XML o clases Java. El modo más común y recomendado es mediante anotaciones, que son etiquetas que se colocan sobre las clases o los atributos para indicar al contenedor IoC cómo debe crear e inyectar las dependencias.
+
+=== Inversión de control
+
+La inversión de control (IoC) es un patrón de diseño que consiste en delegar el control de la creación, inicialización y conexión de los objetos de una aplicación a un objeto externo llamado **contenedor**. El contenedor se encarga de gestionar el ciclo de vida y la configuración de los objetos, que son llamados **beans**, y proveerlos cuando sean necesarios a través de la **inyección de dependencias**.
+
+En Spring Boot, el contenedor IoC está representado por la interfaz **ApplicationContext**, que se puede configurar mediante anotaciones, archivos XML o clases Java. El contenedor IoC lee la configuración y crea e inyecta los beans según las anotaciones o las definiciones que se hayan especificado.
+
+La inversión de control en Spring Boot permite desacoplar los componentes de una aplicación y facilitar su reutilización, testing y mantenimiento. Además, permite aprovechar las características adicionales que ofrece el framework Spring a través del tiempo de vida de los objetos.
+
+=== Principales anotaciones de Spring Core
+
+.Las principales anotaciones de Spring Core son las siguientes:
+- `@SpringBootApplication`: indica que una clase es la principal de una aplicación spring boot y habilita la configuración automática, el escaneo de componentes y otras características.
+- `@Configuration`: indica que una clase define beans adicionales o importa otras clases de configuración para el contexto de spring.
+- `@EnableAutoConfiguration`: indica que se debe usar el mecanismo de configuración automática de spring boot para inferir los beans necesarios según las dependencias del classpath.
+- `@ComponentScan`: indica el paquete o los paquetes donde buscar beans anotados con @Component, @Repository, @Service o @Controller.
+- `@Component`: indica que una clase es un componente gestionado por el contenedor IoC y puede ser inyectado como una dependencia.
+- `@Autowired`: indica que un atributo debe ser inyectado con una instancia del tipo adecuado creada por el contenedor IoC.
+- `@Qualifier`: indica el nombre específico del componente que se quiere inyectar cuando hay más de uno del mismo tipo.
+- `@Value`: indica que un atributo debe ser inyectado con un valor literal o una expresión.
+- `@Required`: se aplica a un método setter y indica que el bean anotado debe llenarse en el momento de la configuración con la propiedad requerida, de lo contrario arroja una excepción BeanInitilizationException.
+
+Además, existen otras anotaciones que son especializaciones de `@Component` y que categorizan los componentes según su responsabilidad. Estas son:
+
+- `@Controller`: indica que una clase es un controlador web y puede manejar peticiones HTTP.
+- `@Service`: indica que una clase es un servicio de negocio y contiene la lógica de aplicación.
+- `@Repository`: indica que una clase es un repositorio de datos y puede acceder a la capa de persistencia.
+
+.Un ejemplo de una clase que se inyecta en otra clase mediante anotaciones:
+[source,java]
+----
+//Clase principal de la aplicación
+@SpringBootApplication //Indica que es la clase principal y habilita la configuración automática y el escaneo de componentes
+public class Aplicacion {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Aplicacion.class, args); //Inicia la aplicación spring boot
+    }
+}
+
+//Clase de configuración
+@Configuration //Indica que define beans adicionales o importa otras clases de configuración
+public class Configuracion {
+
+    @Bean //Indica que el método devuelve un bean que debe ser registrado en el contexto de spring
+    public Servicio servicio() {
+        return new Servicio(); //Crea una instancia del servicio
+    }
+}
+
+//Clase de servicio
+@Service //Indica que es un bean de la capa de negocio
+public class Servicio {
+
+    public String saludo() {
+        return "Hola desde el servicio"; //Devuelve un saludo
+    }
+}
+
+//Clase de controlador
+@Controller //Indica que es un controlador para spring MVC
+public class Controlador {
+
+    @Autowired //Indica que la propiedad debe ser inyectada con otro bean de spring (en este caso el servicio)
+    private Servicio servicio;
+
+    @GetMapping("/") //Indica que el método maneja las peticiones GET a la ruta "/"
+    public String inicio(Model model) {
+        model.addAttribute("saludo", servicio.saludo()); //Añade el saludo del servicio al modelo
+        return "inicio"; //Devuelve el nombre de la vista a mostrar (en este caso "inicio.html")
+    }
+}
+----
+
+
+== Spring Web
+
+=== Visión general de Spring Web
+De acuerdo, puedo darte una visión general del paquete Spring Web en el framework Spring Boot. Según los resultados de búsqueda¹²³, el paquete Spring Web es uno de los starters que ofrece Spring Boot para facilitar el desarrollo de aplicaciones web con Spring. Al incluir este paquete en el proyecto, se obtienen las siguientes ventajas:
+
+- Se configura automáticamente un servidor web embebido (por defecto Tomcat) que se puede arrancar con un solo comando.
+- Se habilita el soporte para las anotaciones de Spring MVC y se registran automáticamente los controladores y otros componentes web.
+- Se proporciona una integración con otras tecnologías web como Thymeleaf, JSP o JSF.
+- Se simplifica la seguridad web con la integración de Spring Security y Azure Active Directory.
+
+El paquete Spring Web es una forma rápida y sencilla de crear aplicaciones web con Spring Boot sin tener que configurar manualmente muchos aspectos. Puedes encontrar más información sobre el paquete Spring Web en la documentación oficial⁴.
+
+=== Anotaciones de Spring Web
+
+.Las principales anotaciones de Spring Web son las siguientes:
+- **@RequestMapping**: Esta anotación marca los métodos controladores dentro de las clases @Controller y se puede configurar usando path, name o value para indicar a qué URL se asigna el método.
+- **@GetMapping**, **@PostMapping**, **@PutMapping**, **@DeleteMapping**, **@PatchMapping**: Estas anotaciones son alias de @RequestMapping con diferentes métodos HTTP y se utilizan para asignar métodos controladores a diferentes rutas URL según el tipo de solicitud.
+- **@PathVariable**: Esta anotación se utiliza para vincular una parte de la URL a un parámetro del método controlador.
+- **@RequestParam**: Esta anotación se utiliza para vincular un parámetro de consulta o un parámetro de formulario a un parámetro del método controlador.
+- **@RequestBody**: Esta anotación se utiliza para vincular el cuerpo de la solicitud HTTP a un objeto en el método controlador.
+
+- **@ResponseBody**: Si marcamos un método controlador con @ResponseBody, Spring trata el resultado del método como la respuesta misma y lo convierte al formato adecuado según el tipo de contenido de la solicitud.
+- **@ExceptionHandler**: Con esta anotación, podemos declarar un método personalizado para manejar los errores que se produzcan en los métodos controladores y devolver una respuesta adecuada al cliente.
+- **@ResponseStatus**: Podemos especificar el estado HTTP deseado de la respuesta si anotamos un método controlador con esta anotación. También podemos usarla junto con @ExceptionHandler para indicar el estado HTTP del error.
+
+=== Ejemplo de aplicación web con Spring Boot
+
+.Ejemplo de aplicación web con Spring Boot:
+[source,java]
+----
+@SpringBootApplication
+public class Aplicacion {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Aplicacion.class, args);
+    }
+}
+
+@Controller
+public class Controlador {
+
+    @GetMapping("/")
+    public String inicio(Model model) {
+        model.addAttribute("saludo", "Hola desde el controlador");
+        return "inicio";
+    }
+}
+----
+
+.Un ejemplo del uso de la anotación @RequestMapping:
+[source,java]
+----
+@Controller
+@RequestMapping("/users")
+public class UserController {
+
+    // GET /users -> devuelve una lista de usuarios
+    @RequestMapping(method = RequestMethod.GET)
+    public String getUsers(Model model) {
+        List<User> users = userService.getUsers();
+        model.addAttribute("users", users);
+        return "users";
+    }
+
+    // POST /users -> crea un nuevo usuario
+    @RequestMapping(method = RequestMethod.POST)
+    public String createUser(@ModelAttribute User user) {
+        userService.createUser(user);
+        return "redirect:/users";
+    }
+
+    // PUT /users/{id} -> actualiza un usuario existente
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public String updateUser(@PathVariable Long id, @ModelAttribute User user) {
+        userService.updateUser(id, user);
+        return "redirect:/users";
+    }
+
+    // DELETE /users/{id} -> elimina un usuario existente
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public String deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return "redirect:/users";
+    }
+}
+----
+
+.Un ejemplo del uso de las anotaciones @GetMapping, @PostMapping, @PutMapping y @DeleteMapping:
+[source,java]
+----
+@RestController
+@RequestMapping("/users")
+public class UserController {
+    
+    private List<User> users = new ArrayList<>();
+    
+    //Obtener todos los usuarios
+    @GetMapping("/")
+    public List<User> getUsers() {
+        return users;
+    }
+    
+    //Obtener un usuario por su ID
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable int id) {
+        return users.stream()
+                .filter(user -> user.getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
+    
+    //Agregar un nuevo usuario
+    @PostMapping("/")
+    public User addUser(@RequestBody User user) {
+        users.add(user);
+        return user;
+    }
+    
+    //Actualizar un usuario existente
+    @PutMapping("/{id}")
+    public User updateUser(@PathVariable int id, @RequestBody User updatedUser) {
+        User user = getUserById(id);
+        if (user != null) {
+            user.setName(updatedUser.getName());
+            user.setEmail(updatedUser.getEmail());
+        }
+        return user;
+    }
+    
+    //Eliminar un usuario
+    @DeleteMapping("/{id}")
+    public User deleteUser(@PathVariable int id) {
+        User user = getUserById(id);
+        if (user != null) {
+            users.remove(user);
+        }
+        return user;
+    }
+    
+    //Actualizar parcialmente un usuario
+    @PatchMapping("/{id}")
+    public User partialUpdateUser(@PathVariable int id, @RequestBody Map<String, Object> updates) {
+        User user = getUserById(id);
+        if (user != null) {
+            updates.forEach((key, value) -> {
+                switch (key) {
+                    case "name":
+                        user.setName((String) value);
+                        break;
+                    case "email":
+                        user.setEmail((String) value);
+                        break;
+                }
+            });
+        }
+        return user;
+    }
+}
+----
+
+=== Validación de datos
+
+La validación de datos es un proceso que se utiliza para verificar que los datos de entrada sean correctos y cumplan con los requisitos establecidos. Por ejemplo, si tenemos un formulario de registro de usuarios, podemos usar la validación de datos para verificar que el nombre de usuario no esté vacío, que la contraseña tenga al menos 8 caracteres, que el correo electrónico tenga un formato válido, etc.
+
+Spring Boot proporciona una serie de anotaciones que podemos usar para validar los datos de entrada en los métodos controladores. Estas anotaciones se pueden aplicar a los parámetros de los métodos controladores o a los campos de los objetos de modelo.
+
+.Las anotaciones de validación de datos numéricos son:
+- **@NotNull**: El campo no puede ser nulo.
+- **@NotEmpty**: El campo no puede ser nulo ni vacío.
+- **@NotBlank**: El campo no puede ser nulo ni estar en blanco.
+- **@Size**: El campo debe tener un tamaño entre los valores especificados.
+- **@Min**: El campo debe tener un valor mayor o igual al especificado.
+- **@Max**: El campo debe tener un valor menor o igual al especificado.
+- **@Valid**: El campo debe ser válido.
+- **@DecimalMax**: El campo debe tener un valor menor o igual al especificado.
+- **@DecimalMin**: El campo debe tener un valor mayor o igual al especificado.
+- **@Digits**: El campo debe tener un número de dígitos (enteros y decimales) menor o igual al especificado.
+- **@Negative**: El campo debe tener un valor negativo.
+- **@NegativeOrZero**: El campo debe tener un valor negativo o cero.
+- **@Positive**: El campo debe tener un valor positivo.
+- **@PositiveOrZero**: El campo debe tener un valor positivo o cero.
+
+.Las anotaciones de validación de datos de cadena son:
+- **@Email**: El campo debe tener un formato de correo electrónico válido.
+- **@Pattern**: El campo debe coincidir con el patrón especificado.
+- **@URL**: El campo debe tener un formato de URL válido.
+- **@NotBlank**: El campo no puede ser nulo ni estar en blanco.
+- **@NotEmpty**: El campo no puede ser nulo ni vacío.
+- **@Size**: El campo debe tener un tamaño entre los valores especificados.
+
+.Las anotaciones de validación de datos de fecha son:
+- **@Future**: El campo debe ser una fecha futura.
+- **@FutureOrPresent**: El campo debe ser una fecha futura o la fecha actual.
+- **@Past**: El campo debe ser una fecha pasada.
+- **@PastOrPresent**: El campo debe ser una fecha pasada o la fecha actual.
+
+.Las anotaciones de validación de datos de tipo booleano son:
+- **@AssertTrue**: El campo debe ser verdadero.
+- **@AssertFalse**: El campo debe ser falso.
+
+.Un ejemplo de validación de datos con anotaciones:
+[source,java]
+----
+@RestController
+@RequestMapping("/users")
+public class UserController {
+    
+    private List<User> users = new ArrayList<>();
+    
+    //Obtener todos los usuarios
+    @GetMapping("/")
+    public List<User> getUsers() {
+        return users;
+    }
+    
+    //Obtener un usuario por su ID
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable int id) {
+        return users.stream()
+                .filter(user -> user.getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
+    
+    //Agregar un nuevo usuario
+    @PostMapping("/")
+    public User addUser(@RequestBody @Valid User user) {
+        users.add(user);
+        return user;
+    }
+    
+    //Actualizar parcialmente un usuario
+    @PatchMapping("/{id}")
+    public User partialUpdateUser(@PathVariable int id, @RequestBody @Valid Map<String, Object> updates) {
+        User user = getUserById(id);
+        if (user != null) {
+            updates.forEach((key, value) -> {
+                switch (key) {
+                    case "name":
+                        user.setName((String) value);
+                        break;
+                    case "email":
+                        user.setEmail((String) value);
+                        break;
+                }
+            });
+        }
+        return user;
+    }
+}
+----
+
+.Donde User.java es:
+[source,java]
+----
+public class User {
+    
+    private int id;
+    @NotBlank
+    private String name;
+    @Email
+    private String email;
+    
+    //Constructores, getters y setters
+}
+----
+
+.Un ejemplo de Entity con muchas de las anotaciones de validación de datos que se pueden usar:
+[source,java]
+----
+@Entity
+@Table(name = "users")
+public class User {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    
+    @NotBlank
+    @Size(min = 3, max = 50)
+    private String name;
+    
+    @NotBlank
+    @Size(min = 3, max = 50)
+    @Email
+    private String email;
+    
+    @NotBlank
+    @Size(min = 8, max = 100)
+    private String password;
+    
+    @NotNull
+    @Min(18)
+    @Max(100)
+    private int age;
+    
+    @NotNull
+    @PastOrPresent
+    private LocalDate birthDate;
+    
+    @NotNull
+    @AssertTrue
+    private boolean terms;
+    
+    //Constructores, getters y setters
+}
+----
+
+=== Manejo de errores
+
+Cuando se produce un error en la aplicación, Spring Boot devuelve una respuesta HTTP con un código de estado de error y un mensaje de error. Por ejemplo, si intentamos obtener un usuario que no existe, Spring Boot devuelve una respuesta HTTP con el código de estado 404 (Not Found) y el mensaje de error "User not found".
+
+.Tenemos dos opciones para manejar los errores:
+- **Manejo de errores con @ExceptionHandler**
+- **Manejo de errores con ResponseEntity**
+
+==== Manejo de errores con @ExceptionHandler
+@ExceptionHandler en Spring es una anotación que nos permite manejar excepciones específicas que se lanzan en un controlador de Spring. Esta anotación se utiliza para capturar excepciones específicas y proporcionar una respuesta personalizada al cliente, en lugar de simplemente lanzar la excepción y mostrar el mensaje de error predeterminado.
+
+Podemos la anotación @ControllerAdvice para crear un manejador de excepciones global para nuestra aplicación. Dentro de este manejador, podemos crear un método que se ejecutará cuando se produzca una excepción de tipo 'MiExcepcion'.
+
+.Un ejemplo de manejo de errores:
+[source,java]
+----
+@ControllerAdvice
+public class ManejadorExcepciones {
+    
+    @ExceptionHandler(MiExcepcion.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public String manejarMiExcepcion(MiExcepcion ex) {
+        return "Ocurrió un error al procesar la solicitud: " + ex.getMessage();
+    }
+}
+
+@Controller
+@RequestMapping("/users")
+public class UserController {
+    
+    //Obtener un usuario por su ID
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable int id) {
+        if (id == 1) {
+            throw new MiExcepcion("El usuario con ID 1 no existe");
+        }
+        return users.stream()
+                .filter(user -> user.getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
+}
+----
+
+==== Manejo de errores con ResponseEntity
+
+ResponseEntity en Spring es una clase que representa la respuesta HTTP que se envía al cliente. Esta clase es muy útil cuando queremos personalizar la respuesta que se envía al cliente, ya que nos permite configurar el código de estado HTTP, las cabeceras y el cuerpo de la respuesta.
+
+La forma más común de utilizar ResponseEntity es devolverla desde un controlador de Spring. Por ejemplo, supongamos que tenemos un controlador que recibe una solicitud HTTP POST para crear un nuevo recurso. Si la solicitud es válida, el controlador crea el recurso y devuelve una respuesta HTTP con el código de estado 201 (Created) y el recurso creado en el cuerpo de la respuesta. Si la solicitud no es válida, el controlador devuelve una respuesta HTTP con el código de estado 400 (Bad Request) y el mensaje de error en el cuerpo de la respuesta.
+
+.Un ejemplo de manejo de errores:
+[source,java]
+----
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+
+@RestController
+@RequestMapping("/api")
+public class EjemploController {
+
+    @PostMapping("/ejemplo")
+    public ResponseEntity<String> crearEjemplo(@Valid @RequestBody EjemploDto ejemploDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            String mensajeError = bindingResult.getFieldErrors().stream()
+                    .map(error -> error.getField() + " " + error.getDefaultMessage())
+                    .reduce("", (acumulado, mensaje) -> acumulado + mensaje + ", ");
+            mensajeError = mensajeError.substring(0, mensajeError.length() - 2); // eliminamos la última coma y el espacio
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error de validación: " + mensajeError);
+        }
+        
+        // Código para guardar el ejemplo en la base de datos o realizar cualquier otra operación
+        
+        return ResponseEntity.status(HttpStatus.CREATED).body("Ejemplo creado con éxito");
+    }
+}
+----
+
+== Spring Data
+
+=== Visión general de Spring Data
+
+Spring Data es un subproyecto de Spring Framework que proporciona un conjunto de bibliotecas y herramientas para simplificar el acceso a los datos de diferentes tipos de bases de datos, como bases de datos relacionales y no relacionales.
+
+El objetivo principal de Spring Data es abstraer la complejidad del acceso a los datos y proporcionar una API coherente y fácil de usar para interactuar con diferentes bases de datos. Esto significa que los desarrolladores pueden concentrarse en la lógica de negocio en lugar de preocuparse por cómo acceder a los datos.
+
+Spring Data proporciona una amplia gama de funcionalidades, desde la creación de repositorios que permiten realizar operaciones CRUD (crear, leer, actualizar y eliminar) de forma rápida y fácil, hasta la implementación de consultas complejas con lenguajes específicos de la base de datos.
+
+Además, Spring Data es altamente personalizable y extensible, lo que significa que puedes adaptarlo a tus necesidades específicas. Por ejemplo, puedes agregar tus propios métodos de consulta personalizados o usar tus propias anotaciones para mapear tus entidades de dominio a la base de datos.
+
+En resumen, Spring Data es una herramienta muy útil para simplificar el acceso a los datos en aplicaciones de Spring. Al utilizar Spring Data, puedes escribir menos código, reducir la complejidad y aumentar la productividad.
+
+.Tipos de acceso a los datos en Spring Data
+* *JPQL*: Java Persistence Query Language (JPQL) es un lenguaje de consulta orientado a objetos que se utiliza para realizar consultas en bases de datos relacionales. JPQL es similar a SQL, pero está orientado a objetos y utiliza nombres de clases y atributos en lugar de nombres de tablas y columnas. JPQL se utiliza para realizar consultas en bases de datos relacionales que utilizan el estándar JPA (Java Persistence API) para el mapeo objeto-relacional (ORM).
+* *JPA*: Java Persistence API (JPA) es una especificación de Java que define cómo acceder a los datos de una base de datos relacional. JPA se utiliza para mapear objetos Java a tablas de una base de datos relacionales y viceversa. JPA proporciona una API para realizar operaciones CRUD (crear, leer, actualizar y eliminar) en una base de datos relacionales.
+
+=== Anotaciones de Spring Data
+
+.Las anotaciones de Spring Data:
+* @Repository: Anota una clase que proporciona el mecanismo de persistencia para trabajar con una base de datos. Esta anotación es opcional, pero se recomienda su uso para facilitar la inyección de dependencias y la transparencia transaccional.
+* @Table: Anota una clase que representa una tabla en una base de datos relacional. Esta anotación es utilizada por el ORM (Object-Relational Mapping) para mapear los objetos Java a las tablas de la base de datos.
+* @Entity: Anota una clase que representa una tabla en una base de datos relacional. Esta anotación es utilizada por el ORM (Object-Relational Mapping) para mapear los objetos Java a las tablas de la base de datos.
+* @Id: Anota el atributo que se utilizará como clave primaria en una tabla de base de datos. Esta anotación es necesaria para que el ORM pueda identificar los registros de la tabla.
+* @GeneratedValue: Anota el atributo que será generado automáticamente por la base de datos cuando se inserte un nuevo registro. Esta anotación se utiliza en combinación con @Id.
+* @Column: Anota un atributo que representa una columna en una tabla de base de datos. Esta anotación es utilizada por el ORM para mapear los atributos de la clase a las columnas de la tabla.
+* @Transient: Anota un atributo que no se debe mapear a una columna en la tabla de base de datos. Esta anotación se utiliza en combinación con @Column.
+* @Transactional: Anota un método o una clase que ejecuta operaciones transaccionales. Esta anotación asegura que todas las operaciones en el método o la clase se ejecuten en una única transacción.
+* @Query: Anota un método que ejecuta una consulta personalizada. Esta anotación se utiliza en combinación con @Modifying para ejecutar consultas de actualización.
+* @Modifying: Anota un método que ejecuta una consulta de actualización. Esta anotación se utiliza en combinación con @Query para ejecutar consultas personalizadas.
+* @Param: Anota un parámetro de un método que ejecuta una consulta personalizada. Esta anotación se utiliza en combinación con @Query para ejecutar consultas personalizadas.
+
+=== JPA
+
+Data JPA es una biblioteca o framework de Java que proporciona una abstracción de alto nivel para interactuar con bases de datos relacionales utilizando la tecnología Java Persistence API (JPA). JPA es una especificación de Java EE para el mapeo objeto-relacional (ORM), que permite a los desarrolladores trabajar con bases de datos relacionales utilizando objetos Java en lugar de SQL directamente.
+
+Data JPA agrega una capa de abstracción adicional en la parte superior de JPA para facilitar la interacción con las bases de datos y reducir la cantidad de código que se debe escribir para realizar operaciones de base de datos. Proporciona características como la creación automática de consultas a partir de métodos de repositorio, la gestión de transacciones y la especificación de consultas personalizadas.
+
+Data JPA se puede utilizar en combinación con cualquier implementación de JPA, como Hibernate o EclipseLink, y es compatible con una variedad de bases de datos relacionales como MySQL, PostgreSQL, Oracle y SQL Server, entre otras.
+
+==== Realizar consultas con JPA
+
+Para realizar consultas con JPA, debes crear una interfaz que extienda la interfaz CrudRepository. Esta interfaz proporciona una serie de métodos para realizar operaciones CRUD (crear, leer, actualizar y eliminar) en una base de datos.
+
+.Los métodos de la interfaz CrudRepository:
+* *save*: Este método se utiliza para guardar un objeto en la base de datos. Si el objeto ya existe en la base de datos, se actualizará. Si el objeto no existe en la base de datos, se creará un nuevo registro.
+* *findById*: Este método se utiliza para buscar un objeto en la base de datos utilizando su clave primaria.
+* *findAll*: Este método se utiliza para recuperar todos los objetos de una tabla.
+* *deleteById*: Este método se utiliza para eliminar un objeto de la base de datos utilizando su clave primaria.
+* *delete*: Este método se utiliza para eliminar un objeto de la base de datos.
+
+.Los métodos de búsqueda personalizados:
+* *findByNombre*: Este método se utiliza para buscar un objeto en la base de datos utilizando el atributo nombre.
+* *findByNombreAndApellido*: Este método se utiliza para buscar un objeto en la base de datos utilizando el atributo nombre y apellido.
+* *findByNombreOrApellido*: Este método se utiliza para buscar un objeto en la base de datos utilizando el atributo nombre o apellido.
+* *findByNombreOrderByApellido*: Este método se utiliza para buscar un objeto en la base de datos utilizando el atributo nombre y ordenar los resultados por el atributo apellido.
+* *findByNombreNot*: Este método se utiliza para buscar un objeto en la base de datos utilizando el atributo nombre y excluyendo los resultados que coincidan con el atributo nombre.
+* *findByNombreLike*: Este método se utiliza para buscar un objeto en la base de datos utilizando el atributo nombre y buscando los resultados que coincidan con el atributo nombre.
+* *findByNombreStartingWith*: Este método se utiliza para buscar un objeto en la base de datos utilizando el atributo nombre y buscando los resultados que coincidan con el atributo nombre al comienzo de la cadena.
+* *findByNombreEndingWith*: Este método se utiliza para buscar un objeto en la base de datos utilizando el atributo nombre y buscando los resultados que coincidan con el atributo nombre al final de la cadena.
+* *findByNombreContaining*: Este método se utiliza para buscar un objeto en la base de datos utilizando el atributo nombre y buscando los resultados que coincidan con el atributo nombre en cualquier parte de la cadena.
+* *findByNombreIn*: Este método se utiliza para buscar un objeto en la base de datos utilizando el atributo nombre y buscando los resultados que coincidan con el atributo nombre en una lista de valores.
+
+.Para implementar consultas con JPA:
+- Crea una interfaz que extienda la interfaz JpaRepository.
+- Anota la interfaz con @Repository para indicar que es un repositorio.
+- Crea un método que devuelva un objeto de la entidad que se desea buscar.
+
+.Definiendo un interfaz de repositorio con varios métodos de búsqueda personalizados:
+[source,java]
+----
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    User findByEmail(String email);
+    User findByEmailAndName(String email, String name);
+    User findByEmailOrName(String email, String name);
+    User findByEmailOrderByLastName(String email);
+    User findByEmailNot(String email);
+}
+----
+
+.La clase del servicio:
+[source,java]
+----
+@Service
+public class UserService {
+    @Autowired
+    private UserRepository userRepository;
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Transactional
+    public addUser(User user) {
+        userRepository.save(user);
+    }
+}
+----
+
+=== JPQL 
+
+las consultas JPQL permiten realizar peticiones orientadas a objetos en una base de datos relacional utilizando JPA. A diferencia de SQL, las consultas JPQL se realizan sobre entidades y sus atributos, lo que permite a los desarrolladores trabajar con objetos Java directamente.
+
+.Aquí hay algunos conceptos clave a tener en cuenta al trabajar con consultas JPQL:
+* *Entidades*: Las entidades son clases Java que representan tablas de base de datos. Las consultas JPQL se realizan sobre entidades.
+* *Atributos*: Los atributos son variables dentro de una entidad que representan columnas en la base de datos.
+ *Clausulas: Las cláusulas son palabras clave utilizadas en una consulta para definir lo que se busca. Las cláusulas comunes incluyen SELECT, FROM, WHERE, ORDER BY, y GROUP BY.
+* *Parámetros*: Los parámetros se utilizan para proporcionar valores dinámicos a las consultas. Los parámetros se indican en la consulta utilizando la sintaxis ":" seguida del nombre del parámetro.
+* *Funciones*: Las funciones son expresiones que se aplican a los atributos de las entidades para realizar cálculos o manipulaciones de datos. Las funciones comunes incluyen AVG, MAX, MIN, COUNT, y SUM.
+* *Resultados*: Los resultados de las consultas JPQL son objetos Java que se pueden utilizar en el código de la aplicación.
+
+.Las anotaciones de JPQL:
+* *@Query*: Anota un método de un repositorio para indicar que se debe ejecutar una consulta JPQL. Esta anotación se utiliza para definir consultas JPQL personalizadas.
+* *@Param*: Anota un parámetro de un método de un repositorio para indicar que se debe utilizar como parámetro en una consulta JPQL. Esta anotación se utiliza para definir consultas JPQL personalizadas.
+* *@Modifying*: Anota un método de un repositorio para indicar que se debe ejecutar una consulta JPQL que modifica los datos. Esta anotación se utiliza para definir consultas JPQL personalizadas.
+
+.Ejemplo de consulta JPQL:
+[source,java]
+----
+public interface ProductoRepository extends JpaRepository<Producto, Long> {
+    @Query("SELECT p FROM Producto p WHERE p.precio > :precio")
+    List<Producto> buscarPorPrecioMayorQue(@Param("precio") Double precio);
+}
+----
+
+.Ejemplo de consulta JPQL con @Modifying:
+[source,java]
+----
+public interface ProductoRepository extends JpaRepository<Producto, Long> {
+    @Modifying
+    @Query("UPDATE Producto p SET p.precio = :precio WHERE p.id = :id")
+    void actualizar(@Param("id") Long id, @Param("precio") Double precio);
+}
+----
+
+.Un ejemplo de un servicio que utiliza un repositorio para realizar consultas JPQL:
+[source,java]
+----
+@Service
+public class ProductoService {
+    @Autowired
+    private ProductoRepository productoRepository;
+
+    public List<Producto> buscarPorPrecioMayorQue(Double precio) {
+        return productoRepository.buscarPorPrecioMayorQue(precio);
+    }
+
+    @Transactional
+    public void actualizarPrecio(Long id, Double precio) {
+        productoRepository.actualizar(id, precio);
+    }
+}
+----
+
+=== Hibernate
+Hibernate es un framework de mapeo objeto-relacional (ORM) que se utiliza comúnmente en aplicaciones de Java. Es una implementación de la especificación Java Persistence API (JPA) y proporciona una forma de interactuar con bases de datos relacionales utilizando objetos Java.
+
+En el contexto de Spring, Hibernate se utiliza a menudo como implementación de JPA para acceder a bases de datos relacionales. Spring proporciona una capa adicional de abstracción sobre JPA y Hibernate, facilitando su integración en una aplicación de Spring.
+
+Para utilizar Hibernate con Spring, se debe configurar un EntityManagerFactory, que es una fábrica de objetos EntityManager. EntityManager es una interfaz de JPA que permite realizar operaciones de lectura y escritura en la base de datos utilizando objetos Java.
+
+.Para establecer relaciones entre entidades en Spring con Hibernate, se utilizan las siguientes anotaciones:
+* *@OneToOne*: Esta anotación se utiliza para establecer una relación uno-a-uno entre dos entidades. Se utiliza para indicar que una entidad tiene una relación con otra entidad de forma que una instancia de una entidad sólo puede estar asociada con una única instancia de la otra entidad.
+* *@OneToMany*: Esta anotación se utiliza para establecer una relación uno-a-muchos entre dos entidades. Se utiliza para indicar que una entidad tiene una colección de instancias de otra entidad.
+* *@ManyToOne*: Esta anotación se utiliza para establecer una relación muchos-a-uno entre dos entidades. Se utiliza para indicar que varias instancias de una entidad pueden estar asociadas con una única instancia de otra entidad.
+* *@ManyToMany*: Esta anotación se utiliza para establecer una relación muchos-a-muchos entre dos entidades. Se utiliza para indicar que varias instancias de una entidad pueden estar asociadas con varias instancias de otra entidad.
+
+
+Cada una de estas anotaciones se utiliza en combinación con otras anotaciones de Hibernate, como *@JoinColumn*, *@JoinTable* o *@MappedBy* , para especificar la forma en que se deben mapear las relaciones entre las entidades. 
+
+.Ejemplo de uso de @OneToOne:
+[source,java]
+----
+@Entity
+public class Producto {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name")
+    private String nombre;
+
+    @Column(name = "description")
+    private String descripcion;
+
+    @Column(name = "price")
+    private Double precio;
+
+    @OneToOne
+    @JoinColumn(name = "category_id")
+    private Categoria categoria;
+
+    // constructor, getters y setters
+}
+
+@Entity
+public class Categoria {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name")
+    private String nombre;
+
+    @Column(name = "description")
+    private String descripcion;
+
+    // constructor, getters y setters
+}
+----
+
+.Ejemplo de uso de @OneToMany:
+[source,java]
+----
+@Entity
+public class Producto {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name")
+    private String nombre;
+
+    @Column(name = "description")
+    private String descripcion;
+
+    @Column(name = "price")
+    private Double precio;
+
+    @OneToMany(mappedBy = "producto")
+    private List<DetallePedido> detallesPedido;
+
+    // constructor, getters y setters
+}
+
+@Entity
+public class DetallePedido {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "quantity")
+    private Integer cantidad;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Producto producto;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Pedido pedido;
+
+    // constructor, getters y setters
+}
+----
+
+.Ejemplo de uso de @ManyToOne:
+[source,java]
+----
+@Entity
+public class Producto {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name")
+    private String nombre;
+
+    @Column(name = "description")
+    private String descripcion;
+
+    @Column(name = "price")
+    private Double precio;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Categoria categoria;
+
+    // constructor, getters y setters
+}
+
+@Entity
+public class Categoria {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name")
+    private String nombre;
+
+    @Column(name = "description")
+    private String descripcion;
+
+    @OneToMany(mappedBy = "categoria")
+    private List<Producto> productos;
+
+    // constructor, getters y setters
+}@
+@
+@
+----
+
+.Ejemplo de uso de @ManyToMany:
+[source,java]
+----
+@Entity
+public class Producto {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name")
+    private String nombre;
+
+    @Column(name = "description")
+    private String descripcion;
+
+    @Column(name = "price")
+    private Double precio;
+
+    @ManyToMany
+    @JoinTable(name = "product_tag",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private List<Etiqueta> etiquetas;
+
+    // constructor, getters y setters
+}
+
+@Entity
+public class Etiqueta {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name")
+    private String nombre;
+
+    @ManyToMany(mappedBy = "etiquetas")
+    private List<Producto> productos;
+
+    // constructor, getters y setters
+}
+----
+
+=== Ejemplo de aplicación con Spring Data
+
+.Ejemplo de aplicación con Spring Data:
+[source,java]
+----
+@Entity
+public class Producto {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name")
+    private String nombre;
+
+    @Column(name = "description")
+    private String descripcion;
+
+    @Column(name = "price")
+    private Double precio;
+
+    @CreatedDate
+    private LocalDateTime fechaCreacion;
+
+    @LastModifiedDate
+    private LocalDateTime fechaModificacion;
+
+    // constructor, getters y setters
+}
+
+@Repository
+public interface ProductoRepository extends JpaRepository<Producto, Long> {
+    @Query("SELECT p FROM Producto p WHERE p.precio > :precio")
+    List<Producto> buscarPorPrecioMayorQue(@Param("precio") Double precio);
+
+    @Modifying
+    @Query("UPDATE Producto p SET p.precio = :precio WHERE p.id = :id")
+    void actualizarPrecioPorId(@Param("id") Long id, @Param("precio") Double precio);
+}
+
+@Service
+public class ProductoService {
+    @Autowired
+    private ProductoRepository productoRepository;
+
+    @Transactional
+    public void actualizarPrecioPorId(Long id, Double precio) {
+        productoRepository.actualizarPrecioPorId(id, precio);
+    }
+
+    public List<Producto> buscarPorPrecioMayorQue(Double precio) {
+        return productoRepository.buscarPorPrecioMayorQue(precio);
+    }
+}
+----
+
+== Spring MVC
+
+=== Visión general de Spring MVC
+
+Spring MVC utiliza el patrón de diseño Modelo-Vista-Controlador para separar la lógica de la aplicación en tres componentes: el modelo, la vista y el controlador. El modelo representa los datos y la lógica de la aplicación, la vista es la interfaz de usuario y el controlador maneja las solicitudes HTTP y coordina la interacción entre el modelo y la vista.
+
+En Spring MVC, el controlador es responsable de manejar las solicitudes HTTP y de devolver la vista adecuada. El modelo se utiliza para almacenar los datos de la aplicación y la vista se utiliza para mostrar los datos al usuario.
+
+Spring MVC es muy popular en el mundo Java y se utiliza en muchas aplicaciones web. Es fácil de usar y ofrece muchas características útiles, como la validación de formularios y la internacionalización.
+
+=== Anotaciones de Spring MVC
+
+.Las anotaciones de Spring MVC:
+* *@Controller*: Se utiliza para marcar una clase como un controlador en Spring MVC. Los métodos en un controlador marcados con esta anotación manejan las solicitudes HTTP entrantes.
+* *@RequestMapping*: Se utiliza para mapear una solicitud HTTP a un método en un controlador. La anotación especifica la URL de la solicitud y el método HTTP que debe manejarla.
+* *@PathVariable*: Se utiliza para mapear una parte de una URL a un parámetro de método en un controlador.
+* *@RequestParam*: Se utiliza para mapear un parámetro de solicitud HTTP a un parámetro de método en un controlador.
+* *@ModelAttribute*: Se utiliza para mapear un objeto Java a un modelo que se utiliza en una vista de Spring MVC.
+* *@ResponseBody*: Se utiliza para indicar que un método en un controlador debe devolver el cuerpo de la respuesta HTTP.
+* *@ResponseStatus*: Se utiliza para especificar el código de estado HTTP que debe devolver un método en un controlador.
+* *@SessionAttribute*: Se utiliza para marcar un atributo como un atributo de sesión en Spring MVC.
+* *@InitBinder*: Se utiliza para personalizar el enlace de datos en Spring MVC.
+* *@ExceptionHandler*: Se utiliza para manejar excepciones específicas en Spring MVC.
+
+=== Ejemplo de aplicación con Spring MVC
+
+.Tenemos una clase que modela una tarea:
+[source,java]
+----
+public class Tarea {
+    private Long id;
+    private String titulo;
+    private String descripcion;
+    private Boolean completada;
+
+    // constructor, getters y setters
+}
+----
+
+.Tenemos una interfaz que extiende de JpaRepository para acceder a los datos de la base de datos:
+[source,java]
+----
+public interface TareaRepository extends JpaRepository<Tarea, Long> {
+}
+----
+
+.Tenemos una clase de servicio que utiliza la interfaz de repositorio para acceder a los datos de la base de datos:
+[source,java]
+----
+@Service
+public class TareaService {
+    @Autowired
+    private TareaRepository tareaRepository;
+
+    public List<Tarea> buscarTodas() {
+        return tareaRepository.findAll();
+    }
+
+    public Tarea buscarPorId(Long id) {
+        return tareaRepository.findById(id).orElse(null);
+    }
+
+    public void guardar(Tarea tarea) {
+        tareaRepository.save(tarea);
+    }
+
+    public void eliminar(Long id) {
+        tareaRepository.deleteById(id);
+    }
+}
+----
+
+.Tenemos una clase de controlador que utiliza la clase de servicio para acceder a los datos de la base de datos:
+[source,java]
+----
+@Controller
+
+public class TareaController {
+    @Autowired
+    private TareaService tareaService;
+
+    @GetMapping("/")
+    public String mostrarTodas(Model model) {
+        model.addAttribute("tareas", tareaService.buscarTodas());
+        return "index";
+    }
+
+    @GetMapping("/nueva")
+    public String mostrarFormularioNuevaTarea(Model model) {
+        Tarea tarea = new Tarea();
+        model.addAttribute("tarea", tarea);
+        return "nueva_tarea";
+    }
+
+    @PostMapping("/guardar")
+    public String guardarTarea(@ModelAttribute("tarea") Tarea tarea) {
+        tareaService.guardar(tarea);
+        return "redirect:/";
+    }
+
+    @GetMapping("/editar/{id}")
+    public String mostrarFormularioEditarTarea(@PathVariable(value = "id") Long id, Model model) {
+        Tarea tarea = tareaService.buscarPorId(id);
+        model.addAttribute("tarea", tarea);
+        return "editar_tarea";
+    }
+
+    @GetMapping("/eliminar/{id}")
+    public String eliminarTarea(@PathVariable(value = "id") Long id) {
+        tareaService.eliminar(id);
+        return "redirect:/";
+    }
+}
+----
+
+.nueva_tarea.html:
+[source,html]
+----
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nueva tarea</title>
+</head>
+
+<body>
+    <h1>Nueva tarea</h1>
+    <form action="#" th:action="@{/guardar}" th:object="${tarea}" method="post">
+        <label for="titulo">Título</label>
+        <input type="text" id="titulo" th:field="*{titulo}"/>
+        <br/>
+        <label for="descripcion">Descripción</label>
+        <input type="text" id="descripcion" th:field="*{descripcion}"/>
+        <br/>
+        <label for="completada">Completada</label>
+        <input type="checkbox" id="completada" th:field="*{completada}"/>
+        <br/>
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+</html>
+----
+
+.editar_tarea.html:
+[source,html]
+----
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar tarea</title>
+</head>
+
+<body>
+    <h1>Editar tarea</h1>
+    <form action="#" th:action="@{/guardar}" th:object="${tarea}" method="post">
+        <label for="titulo">Título</label>
+        <input type="text" id="titulo" th:field="*{titulo}"/>
+        <br/>
+        <label for="descripcion">Descripción</label>
+        <input type="text" id="descripcion" th:field="*{descripcion}"/>
+        <br/>
+        <label for="completada">Completada</label>
+        <input type="checkbox" id="completada" th:field="*{completada}"/>
+        <br/>
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+</html>
+----
+
+.index.html:
+[source,html]
+----
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de tareas</title>
+</head>
+
+<body>
+    <h1>Lista de tareas</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Completada</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="tarea : ${tareas}">
+                <td th:text="${tarea.id}"></td>
+                <td th:text="${tarea.titulo}"></td>
+                <td th:text="${tarea.descripcion}"></td>
+                <td th:text="${tarea.completada}"></td>
+                <td>
+                    <a th:href="@{/editar/{id}(id=${tarea.id})}">Editar</a>
+                    <a th:href="@{/eliminar/{id}(id=${tarea.id})}">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/nueva}">Nueva tarea</a>
+</body>
+</html>
+----
+
+=== Thymeleaf
+
+Thymeleaf es un motor de plantillas para aplicaciones web en Java que permite integrar HTML, CSS y JavaScript con datos dinámicos que se generan en el lado del servidor. Se utiliza principalmente en aplicaciones web basadas en el framework Spring.
+
+Thymeleaf es relativamente flexible, y su sintaxis es muy similar a HTML, lo que lo hace muy fácil de aprender. Una de las principales ventajas de Thymeleaf es su capacidad para procesar plantillas tanto en el lado del servidor como en el lado del cliente.
+
+En el lado del servidor, Thymeleaf puede procesar plantillas HTML con marcadores de posición para variables y expresiones, que se reemplazan por valores dinámicos en el servidor antes de enviar la respuesta HTTP al cliente. En el lado del cliente, Thymeleaf puede procesar plantillas HTML que se han enviado desde el servidor y actualizan el contenido dinámico en la página sin necesidad de realizar una nueva solicitud HTTP.
+
+==== Las directivas de Thymeleaf
+
+.Las directivas de Thymeleaf son:
+* **th:text**: permite mostrar el valor de una expresión o variable en el contenido de un elemento HTML.
+* **th:if** y th:unless: permite incluir o excluir contenido HTML basado en una condición booleana.
+* **th:switch** y th:case: permite realizar una selección de casos basada en una expresión y mostrar un contenido HTML diferente para cada caso.
+* **th:each**: permite iterar sobre una colección de objetos y mostrar un contenido HTML para cada elemento.
+* **th:href** y th:src: permite definir la URL de un enlace o de una imagen de manera dinámica a través de una expresión.
+* **th:object**: permite establecer un objeto como contexto para la evaluación de expresiones dentro de un fragmento HTML.
+* **th:fragment**: permite definir un fragmento HTML que puede ser incluido en otras plantillas a través de la directiva th:include.
+* **th:include**: permite incluir un fragmento HTML definido en otra plantilla.
+* **th:attr**: permite agregar atributos HTML dinámicamente a un elemento a través de una expresión.
+* **th:value**: permite establecer el valor de un atributo HTML a través de una expresión.
+* **th:checked**: permite establecer el estado de una casilla de verificación o de un botón de opción a través de una expresión.
+* **th:style**: permite establecer dinámicamente el valor de una regla de estilo CSS.
+
+.Un ejemplo de uso de th:each:
+[source,html]
+----
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Descripción</th>
+      <th>Precio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="prod : ${productos}">
+      <td th:text="${prod.nombre}">Nombre del producto</td>
+      <td th:text="${prod.descripcion}">Descripción del producto</td>
+      <td th:text="${prod.precio}">Precio del producto</td>
+    </tr>
+  </tbody>
+</table>
+----
+
+.Un ejemplo de uso de th:if:
+[source,html]
+----
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Descripción</th>
+      <th>Precio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="prod : ${productos}" th:if="${prod.precio > 10}">
+      <td th:text="${prod.nombre}">Nombre del producto</td>
+      <td th:text="${prod.descripcion}">Descripción del producto</td>
+      <td th:text="${prod.precio}">Precio del producto</td>
+    </tr>
+  </tbody>
+</table>
+----
+
+.Un ejemplo de uso de th:switch:
+[source,html]
+----
+<table>
+    <thead>
+        <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Precio</th>
+        <th>Tipo</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="prod : ${productos}">
+        <td th:text="${prod.nombre}">Nombre del producto</td>
+        <td th:text="${prod.descripcion}">Descripción del producto</td>
+            <td th:text="${prod.precio}">Precio del producto</td>
+            <td th:switch="${prod.tipo}">
+                <span th:case="'A'">Tipo A</span>
+                <span th:case="'B'">Tipo B</span>
+                <span th:case="'C'">Tipo C</span>
+                <span th:case="*">Tipo desconocido</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+----
+
+.Un ejemplo de uso de th:href:
+[source,html]
+----
+<a th:href="@{/productos/{id}(id=${prod.id})}">Ver detalles</a>
+----
+
+.Un ejemplo de uso de th:object:
+[source,html]
+----
+<div th:object="${producto}">
+    <p>Nombre: <span th:text="*{nombre}">Nombre del producto</span></p>
+    <p>Descripción: <span th:text="*{descripcion}">Descripción del producto</span></p>
+    <p>Precio: <span th:text="*{precio}">Precio del producto</span></p>
+</div>
+----
+
+.Un ejemplo de uso de th:fragment:
+[source,html]
+----
+<div th:fragment="producto">
+    <p>Nombre: <span th:text="*{nombre}">Nombre del producto</span></p>
+    <p>Descripción: <span th:text="*{descripcion}">Descripción del producto</span></p>
+    <p>Precio: <span th:text="*{precio}">Precio del producto</span></p>
+</div>
+----

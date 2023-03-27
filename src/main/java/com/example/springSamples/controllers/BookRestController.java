@@ -16,7 +16,7 @@ import com.example.springSamples.entities.BookEntity;
 import com.example.springSamples.repositories.BookRepository;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/store")
 public class BookRestController {
     @Autowired
     private BookRepository repository;

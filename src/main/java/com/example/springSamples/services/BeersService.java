@@ -38,7 +38,7 @@ public class BeersService {
         BeerResponse[] beers = resTemplate.getForObject("https://api.punkapi.com/v2/beers", BeerResponse[].class);
         System.out.println(beers);
         for(BeerResponse beer : beers) {
-            BeerEntity beerEntity = new BeerEntity(beer.getName(), beer.getTagline(), beer.getFirstBrewed(), beer.getDescription(), beer.getImageUrl(), beer.getAbv());
+            BeerEntity beerEntity = new BeerEntity(beer.getName(), beer.getTagline(), beer.getFirstBrewed(), beer.getDescription(), beer.getImageUrl(), beer.getAbv(), beer.getIbu(), beer.getEbc());
             result.add(beerEntity);
         }
         
@@ -55,6 +55,50 @@ public class BeersService {
             }
         }
         return result;
+    }
+
+
+    public BeerEntity createBeer(BeerEntity beer) {
+        return beersRepository.save(beer);
+    }
+
+    public BeerEntity updateBeer(BeerEntity beer, long id) {
+        BeerEntity beerEntity = beersRepository.findById(id);
+        if (beerEntity != null) {
+            this.updateBeerData(beerEntity, beer);
+            return beersRepository.save(beerEntity);
+        } else {
+           throw new RuntimeException("Beer not found");
+        }
+    }
+
+    private void updateBeerData(BeerEntity beerEntity, BeerEntity beer) {
+        beerEntity.setName(beer.getName());
+        beerEntity.setTagline(beer.getTagline());
+        beerEntity.setFirstBrewed(beer.getFirstBrewed());
+        beerEntity.setDescription(beer.getDescription());
+        beerEntity.setImageUrl(beer.getImageUrl());
+        beerEntity.setAbv(beer.getAbv());
+    }
+
+
+    public void deleteBeer(long id) {
+        BeerEntity beerEntity = beersRepository.findById(id);
+        if (beerEntity != null) {
+            beersRepository.delete(beerEntity);
+        } else {
+            throw new RuntimeException("Beer not found");
+        }
+    }
+
+
+    public void deleteBeers(double abvGtDouble, double abvLtDouble) {
+        Iterable<BeerEntity> beers = beersRepository.findAll();
+        for(BeerEntity beer : beers) {
+            if (beer.getAbv() > abvGtDouble && beer.getAbv() < abvLtDouble) {
+                beersRepository.delete(beer);
+            }
+        }
     }
 
 
