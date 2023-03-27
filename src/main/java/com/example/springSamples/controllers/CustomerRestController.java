@@ -28,15 +28,27 @@ import jakarta.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("/api/v1/store")
 public class CustomerRestController {
-
+    
     @Autowired
     private CustomerRepository repository;
-
+    
     @GetMapping("/customers")
-    public Iterable<CustomerEntity> getCustomers() {
-        return repository.findAll();
+    public Iterable<CustomerEntity> getCustomers(
+    @RequestParam(name = "name", required = false, defaultValue = "") String name,
+    @RequestParam(name = "surname", required = false, defaultValue = "") String surname) {
+        if (name.equals("") && surname.equals("")) {
+            return repository.findAll();
+        } else if (!name.equals("") && surname.equals("")) {
+            return repository.findByFirstName(name);            
+        }else if (name.equals("") && !surname.equals("")) {
+            return repository.findByLastName(surname);
+            
+        }else {
+            return repository.findByFirstNameAndLastName(name, surname);
+        }
     }
-
+    
+    
     @GetMapping("/customers/{id}")
     public ResponseEntity<Object> getCustomer(@PathVariable String id) {
         System.out.println("id: " + id);
@@ -49,7 +61,7 @@ public class CustomerRestController {
             return ResponseEntity.status(HttpStatus.OK).body(customer);
         }
     }
-
+    
     @PostMapping("/customers")
     public ResponseEntity<Object> createCustomer(@RequestBody CustomerEntity customer, HttpServletResponse response) {
         // check if customer exists
@@ -58,11 +70,11 @@ public class CustomerRestController {
             // return 409
             return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse("Ya existe un usuario con el email: " + customer.getEmail(), 409));
         }
-            // return 201
-            return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(customer));
+        // return 201
+        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(customer));
         
     }
-
+    
     @PutMapping("/customers")
     public ResponseEntity<Object> updateCustomer(@RequestBody CustomerEntity customer) {
         // check if customer exists
@@ -75,7 +87,7 @@ public class CustomerRestController {
             return ResponseEntity.status(HttpStatus.OK).body(repository.save(customer));
         }
     }
-
+    
     @DeleteMapping("/customers")
     public ResponseEntity<Object> deleteCustomer(@RequestParam(name = "id", required = true) String id) {
         // check if customer exists
@@ -89,7 +101,7 @@ public class CustomerRestController {
             // return 200
             repository.delete(customer);
             return ResponseEntity.status(HttpStatus.OK).body(customer);
-
+            
         }
     }
 }

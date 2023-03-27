@@ -28,8 +28,8 @@ public class SpringSamplesApplication {
 	@Bean
 	public CommandLineRunner addCustomers(CustomerRepository customerRepository) {
 		return (args) -> {
-			customerRepository.save(new CustomerEntity("John", "Doe", "John@algo.com"));
-			customerRepository.save(new CustomerEntity("Jane", "Doe", "Jane@algo.com"));
+			customerRepository.save(new CustomerEntity("John", "Doe", "John@algo.com", 20));
+			customerRepository.save(new CustomerEntity("Jane", "Doe", "Jane@algo.com", 30));
 
 		};
 	}
