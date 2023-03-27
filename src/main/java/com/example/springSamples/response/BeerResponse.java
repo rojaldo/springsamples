@@ -16,6 +16,8 @@ Root root = om.readValue(myJsonString, Root.class); */
 
 public class BeerResponse{
 
+    private long id;
+
     private String name;
     private String tagline;
     @JsonProperty("first_brewed")

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.springSamples.entities.BeerEntity;
 import com.example.springSamples.repositories.BeersRepository;
+import com.example.springSamples.requests.BeerRequest;
 import com.example.springSamples.response.BeerResponse;
 import org.springframework.web.client.RestTemplate;
 
@@ -62,10 +63,12 @@ public class BeersService {
         return beersRepository.save(beer);
     }
 
-    public BeerEntity updateBeer(BeerEntity beer, long id) {
+    public BeerEntity updateBeer(BeerRequest beer, long id) {
         BeerEntity beerEntity = beersRepository.findById(id);
         if (beerEntity != null) {
-            this.updateBeerData(beerEntity, beer);
+            BeerEntity updatedBeerEntity = new BeerEntity(beer);
+            updatedBeerEntity.setId(id);
+            this.updateBeerData(beerEntity, updatedBeerEntity);
             return beersRepository.save(beerEntity);
         } else {
            throw new RuntimeException("Beer not found");
@@ -79,6 +82,8 @@ public class BeersService {
         beerEntity.setDescription(beer.getDescription());
         beerEntity.setImageUrl(beer.getImageUrl());
         beerEntity.setAbv(beer.getAbv());
+        beerEntity.setIbu(beer.getIbu());
+        beerEntity.setEbc(beer.getEbc());
     }
 
 

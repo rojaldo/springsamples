@@ -2,6 +2,7 @@ package com.example.springSamples.entities;
 
 import java.util.ArrayList;
 
+import com.example.springSamples.requests.BeerRequest;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.annotation.Generated;
@@ -51,6 +52,17 @@ public class BeerEntity{
         this.ebc = ebc;
     }
 
+    public BeerEntity(BeerRequest request) {
+        this.name = request.getName();
+        this.tagline = request.getTagline();
+        this.firstBrewed = request.getFirstBrewed();
+        this.description = request.getDescription();
+        this.imageUrl = request.getImageUrl();
+        this.abv = request.getAbv();
+        this.ibu = request.getIbu();
+        this.ebc = request.getEbc();
+    }
+
     @Override
     public String toString() {
         return "BeerEntity [abv=" + abv + ", description=" + description + ", firstBrewed=" + firstBrewed + ", id=" + id
@@ -59,6 +71,10 @@ public class BeerEntity{
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
