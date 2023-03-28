@@ -1,6 +1,5 @@
 package com.example.springSamples.repositories;
 
-import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 

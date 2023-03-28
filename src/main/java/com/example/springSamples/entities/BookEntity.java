@@ -1,11 +1,16 @@
 package com.example.springSamples.entities;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name="BOOK")
 public class BookEntity {
     
     @Id
@@ -15,6 +20,9 @@ public class BookEntity {
     private String title;
     private String author;
     private String isbn;
+
+    @OneToMany(mappedBy = "book")
+    private List<SaleEntity> sales;
 
     public BookEntity() {
     }

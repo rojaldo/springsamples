@@ -1,5 +1,7 @@
 package com.example.springSamples.entities;
 
+import java.util.List;
+
 import org.aspectj.weaver.loadtime.Agent;
 
 import com.example.springSamples.response.ICustomerResponse;
@@ -9,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -27,6 +30,10 @@ public class CustomerEntity implements ICustomerResponse {
     private String email;
     @Column(name = "age")
     private int age;
+
+    @OneToMany(mappedBy = "customer")
+    private List<SaleEntity> purchases;
+
 
     public CustomerEntity() {
     }
