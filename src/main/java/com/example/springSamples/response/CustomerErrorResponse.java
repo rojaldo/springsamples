@@ -1,10 +1,10 @@
 package com.example.springSamples.response;
 
-public class ErrorResponse {
+public class CustomerErrorResponse implements ICustomerResponse{
     public String message;
     public int status;
 
-    public ErrorResponse(String message, int status) {
+    public CustomerErrorResponse(String message, int status) {
         this.message = message;
         this.status = status;
     }

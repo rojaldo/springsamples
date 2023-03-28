@@ -37,7 +37,6 @@ public class BeersService {
     public Iterable<BeerEntity> getBeersFromApi() {
         List<BeerEntity> result = new ArrayList<BeerEntity>();
         BeerResponse[] beers = resTemplate.getForObject("https://api.punkapi.com/v2/beers", BeerResponse[].class);
-        System.out.println(beers);
         for(BeerResponse beer : beers) {
             BeerEntity beerEntity = new BeerEntity(beer.getName(), beer.getTagline(), beer.getFirstBrewed(), beer.getDescription(), beer.getImageUrl(), beer.getAbv(), beer.getIbu(), beer.getEbc());
             result.add(beerEntity);
