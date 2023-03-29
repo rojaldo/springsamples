@@ -13,52 +13,32 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.example.springSamples.entities.BookEntity;
 import com.example.springSamples.repositories.BookRepository;
+import com.example.springSamples.requests.BookRequest;
+import com.example.springSamples.services.BookService;
 
 @RestController
 @RequestMapping("/api/v1/store")
 public class BookRestController {
+
     @Autowired
-    private BookRepository repository;
+    private BookService service;
 
     @GetMapping("/books")
     public Iterable<BookEntity> getBooks() {
-        return repository.findAll();
+        return service.getBooks();
     }
 
     @PostMapping("/books")
-    public BookEntity createBook(@RequestBody BookEntity book) {
+    public BookEntity createBook(@RequestBody BookRequest book) {
         // check if book exists
-        BookEntity myBook = repository.findByIsbn(book.getIsbn());
-        if (myBook != null) {
+        if (service.bookInfoExists(book)) {
             // return 409
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "entity already exists");
+            return service.addNewBook(book);
         } else {
             // return 201
-            return repository.save(book);
+            
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "entity already exists");
         }
     }
 
-    @PutMapping("/books")
-    public BookEntity updateBook(@RequestBody BookEntity book) {
-        // check if book exists
-        BookEntity myBook = repository.findById(book.getId());
-        if (myBook == null) {
-            // return 404
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
-        } else {
-            return repository.save(book);
-        }
-    }
-
-    @DeleteMapping("/books")
-    public void deleteBook(@RequestParam(name = "id", required = true) long id) {
-        // check if book exists
-        BookEntity book = repository.findById(id);
-        if (book == null) {
-            // return 404
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
-        } else {
-            repository.delete(book);
-        }
-    }
 }

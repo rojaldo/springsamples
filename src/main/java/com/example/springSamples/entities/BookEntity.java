@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -17,41 +19,41 @@ public class BookEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private String title;
-    private String author;
-    private String isbn;
+    private double price;
+    private String storeCode;
 
     @OneToMany(mappedBy = "book")
     private List<SaleEntity> sales;
 
+    @ManyToOne
+    @JoinColumn(name = "bookInfo_id")
+    private BookInfoEntity bookInfo;
+
     public BookEntity() {
     }
 
-    public BookEntity(String title, String author, String isbn) {
-        this.title = title;
-        this.author = author;
-        this.isbn = isbn;
+    public BookEntity(double price, String storeCode, BookInfoEntity bookInfo) {
+        this.price = price;
+        this.storeCode = storeCode;
+        this.bookInfo = bookInfo;
     }
 
     public long getId() {
         return id;
     }
 
-    public String getTitle() {
-        return title;
+    public double getPrice() {
+        return price;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public String getIsbn() {
-        return isbn;
+    public String getStoreCode() {
+        return storeCode;
     }
 
     @Override
     public String toString() {
-        return "BookEntity [author=" + author + ", id=" + id + ", isbn=" + isbn + ", title=" + title + "]";
+        return "BookEntity [bookInfo=" + bookInfo + ", id=" + id + ", price=" + price + ", sales=" + sales + ", storeCode="
+                + storeCode + "]";
     }
 
 }

@@ -31,7 +31,6 @@ public class SaleRestController {
     @PostMapping("/sales")
     public SaleEntity createSale(@RequestBody SaleRequest sale) {
         // cheack that user exists
-        System.out.println(sale.toString());
         return service.addNewSale(sale);
     }
 
