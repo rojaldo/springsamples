@@ -18,24 +18,20 @@
     <!-- place navbar here -->
   </header>
   <main>
-
     <div class="container">
-        <div class="row"  >
-            <div th:each="beer: ${beers}" class="col-xs-12 col-md-6 col-lg-4 mb-3" >
-                <div class="card h-100 ">
-                    <div class="container d-flex ">
-                        <img class="card-img-top mx-auto mt-2" th:src="${beer.getImageUrl()}" alt="Title" style="width: 70px;">
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title" th:text="${beer.getName()}"></h4>
-                        <p class="card-text" th:text="${beer.getDescription()}"></p>
-                        <a type="button" class="btn btn-primary" th:href="'http://localhost:8080/beers/'+${beer.getId()}">Details</a>
-                    </div>
+        <div class="row align-items-md-stretch mt-5">
+            <div class="col-md-12">
+                <div
+                    class="h-100 p-5 text-black bg-light border rounded-3 d-flex flex-column">
+                    <h2 th:text="${beer.getName()}"/>
+                    <img th:src="${beer.getImageUrl()}" alt="" class="mx-auto" style="width: 200px;">
+                    <p class="mt-2" th:text="${beer.getDescription()}"/>
+                    <a class="btn btn-outline-primary" type="button" href="http://localhost:8080/beers">Back</a>
                 </div>
             </div>
+
         </div>
     </div>
-
   </main>
   <footer>
     <!-- place footer here -->
