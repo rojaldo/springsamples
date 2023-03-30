@@ -30,6 +30,7 @@
                         <h4 class="card-title" th:text="${beer.getName()}"></h4>
                         <p class="card-text" th:text="${beer.getDescription()}"></p>
                         <a type="button" class="btn btn-primary" th:href="'http://localhost:8080/beers/'+${beer.getId()}">Details</a>
+                        <a type="button" class="btn btn-danger" th:href="'http://localhost:8080/beers/delete/'+${beer.getId()}">Remove</a>
                     </div>
                 </div>
             </div>

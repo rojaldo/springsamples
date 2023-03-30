@@ -25,7 +25,6 @@ public class BeersService {
         return beersRepository.findAll();
     }
 
-
     public BeerEntity getBeerById(long id) {
         return beersRepository.findById(id);
     }
@@ -55,6 +54,10 @@ public class BeersService {
             }
         }
         return result;
+    }
+
+    public void deleteBeerById(long id) {
+        beersRepository.deleteById(id);
     }
 
 

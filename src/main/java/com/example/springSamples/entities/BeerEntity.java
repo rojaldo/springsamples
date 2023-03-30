@@ -10,6 +10,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Size;
 
 // import com.fasterxml.jackson.databind.ObjectMapper; // version 2.11.1
 // import com.fasterxml.jackson.annotation.JsonProperty; // version 2.11.1
@@ -22,16 +23,20 @@ public class BeerEntity{
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.AUTO)
     private long id;
 
+    @Size(min = 1, max = 255)
     private String name;
+    @Size(min = 1, max = 255)
     private String tagline;
 
     @JsonProperty("first_brewed")
+    @Size(min = 1, max = 255)
     private String firstBrewed;
 
     @Column(columnDefinition = "LONGTEXT")
     private String description;
 
     @JsonProperty("image_url")
+    @Size(min = 1, max = 255)
     private String imageUrl;
     private double abv;
     private double ibu;

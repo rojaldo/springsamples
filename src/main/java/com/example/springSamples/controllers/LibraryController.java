@@ -30,7 +30,7 @@ public class LibraryController {
 
     @GetMapping("/library/newcustomer")
     public String newCustomer(Model view) {
-        view.addAttribute("customer", new CustomerEntity("uno","dos","tres",0));
+        view.addAttribute("customer", new CustomerEntity("uno","dos","tres@email.com",23));
         return "newcustomer";
     }
 

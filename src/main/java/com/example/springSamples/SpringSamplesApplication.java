@@ -27,7 +27,7 @@ public class SpringSamplesApplication {
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
-
+/*
 	@Bean
 	public CommandLineRunner addCustomers(
 		CustomerRepository customerRepository, 
@@ -42,7 +42,8 @@ public class SpringSamplesApplication {
 
 		};
 	}
-
+	*/
+/* 
 	@Bean
 	public CommandLineRunner addBeers(BeersRepository beerRepository, BeersService beersService) {
 		return (args) -> {
@@ -52,6 +53,7 @@ public class SpringSamplesApplication {
 
 		};
 	}
+*/
 /*
 	@Bean
 	public CommandLineRunner addCountries(CountriesRepository countryRepository, CountriesService countriesService) {
