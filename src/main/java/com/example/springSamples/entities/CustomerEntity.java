@@ -23,13 +23,13 @@ public class CustomerEntity implements ICustomerResponse {
     private long id;
 
     @Column(name = "first_name")
-    private String firstName;
+    public String firstName;
     @Column(name = "last_name")
-    private String lastName;
+    public String lastName;
     @Column(name = "email")
-    private String email;
+    public String email;
     @Column(name = "age")
-    private int age;
+    public int age;
 
     @OneToMany(mappedBy = "customer")
     private List<SaleEntity> purchases;

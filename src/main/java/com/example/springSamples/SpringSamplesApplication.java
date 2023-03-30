@@ -36,9 +36,9 @@ public class SpringSamplesApplication {
 		return (args) -> {
 			customerRepository.save(new CustomerEntity("John", "Doe", "John@algo.com", 20));
 			customerRepository.save(new CustomerEntity("Jane", "Doe", "Jane@algo.com", 30));
-			BookInfoEntity lotr = new BookInfoEntity("The Lord of the Rings", "J.R.R. Tolkien", "Fantasy", "A book about a ring", "some publisher", "Isbn1");
+			BookInfoEntity lotr = new BookInfoEntity( "J.R.R. Tolkien", "The Lord of the Rings", "Fantasy", "A book about a ring", "some publisher", "Isbn1");
 			bookInfoRepository.save(lotr);
-			bookInfoRepository.save(new BookInfoEntity("The Hobbit", "J.R.R. Tolkien", "Fantasy", "A book about a hobbit", "some publisher", "Isbn2"));
+			bookInfoRepository.save(new BookInfoEntity("J.R.R. Tolkien", "The Hobbit", "Fantasy", "A book about a hobbit", "some publisher", "Isbn2"));
 
 		};
 	}
