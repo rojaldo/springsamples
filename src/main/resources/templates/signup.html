@@ -28,23 +28,22 @@
             <strong>Info:</strong> You have been logged out.
         </div>
         
-        <form th:action="@{/login}" method="post">
+        <form th:action="@{users/signup}" th:object="${user}" method="post">
             <div class="mb-3">
               <label for="" class="form-label">User Name</label>
               <input type="text"
-                class="form-control" aria-describedby="helpId" placeholder="" name="username">
+                class="form-control" aria-describedby="helpId" placeholder="" name="userLogin">
               <small id="helpId" class="form-text text-muted">Help text</small>
             </div>
             <div class="mb-3">
               <label for="" class="form-label">Password</label>
               <input type="password"
-                class="form-control" aria-describedby="helpId" placeholder="" name="password">
+                class="form-control" aria-describedby="helpId" placeholder="" name="userPassword">
               <small id="helpId" class="form-text text-muted">Help text</small>
             </div>
 
-            <div><input type="submit" class="btn btn-primary" value="Sign In"/></div>
+            <div><input type="submit" class="btn btn-primary" value="Sign Up"/></div>
         </form>
-        <a name="" id="" class="btn btn-primary mt-3" href="/signup" role="button">Signup!</a>
     </div>
   </main>
   <footer>
