@@ -1353,7 +1353,7 @@ En el lado del servidor, Thymeleaf puede procesar plantillas HTML con marcadores
         <tr>
         <th>Nombre</th>
         <th>Descripción</th>
-        <th>Precio</th>
+        <th>Precio</th>https://www.baeldung.com/spring-boot-testing
         <th>Tipo</th>
         </tr>
     </thead>
@@ -1398,3 +1398,983 @@ En el lado del servidor, Thymeleaf puede procesar plantillas HTML con marcadores
     <p>Precio: <span th:text="*{precio}">Precio del producto</span></p>
 </div>
 ----
+
+== Spring Security
+
+=== ¿Qué es Spring Security?
+
+Spring Security es un framework de seguridad que proporciona características de autenticación, autorización y protección contra ataques de seguridad en aplicaciones basadas en Spring.
+
+Al utilizar Spring Security, podemos asegurarnos de que los usuarios que acceden a nuestra aplicación estén autenticados y autorizados para realizar determinadas acciones. También nos permite proteger nuestras aplicaciones contra ataques comunes como Cross-Site Request Forgery (CSRF), Cross-Site Scripting (XSS) y SQL Injection.
+
+Spring Security se basa en filtros y proveedores de autenticación y autorización, que se encargan de procesar las solicitudes de los usuarios y verificar su identidad y permisos. 
+
+.Algunos de los componentes principales de Spring Security son:
+* **UserDetailsService**: es una interfaz que se utiliza para cargar la información de los usuarios y sus roles desde una fuente de datos, como una base de datos o un servicio web.
+* **AuthenticationManager**: es una interfaz que se encarga de procesar las solicitudes de autenticación y validar las credenciales del usuario.
+* **PasswordEncoder**: es una interfaz que se utiliza para codificar y decodificar las contraseñas de los usuarios, para que no se almacenen en texto plano en la base de datos o en otros medios de almacenamiento.
+* **AccessDecisionManager**: es una interfaz que se utiliza para tomar decisiones de autorización y determinar si un usuario tiene acceso a una determinada funcionalidad o recurso en la aplicación.
+
+Para utilizar Spring Security en una aplicación, primero debemos agregar las dependencias correspondientes en el archivo pom.xml o build.gradle, según sea el caso. Luego, podemos configurar las reglas de seguridad y las opciones de autenticación y autorización en el archivo application.properties o mediante clases de configuración específicas de Spring Security.
+
+.Las dependencias de Spring Security en Maven son:
+[source,xml]
+----
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+----
+
+.Las dependencias de Spring Security en Gradle son:
+[source,groovy]
+----
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+}
+----
+
+Spring Security también proporciona integración con otros frameworks y herramientas de seguridad, como OAuth2, JWT, LDAP y SAML, lo que nos permite implementar características avanzadas de seguridad en nuestras aplicaciones de manera sencilla y eficiente.
+
+En resumen, Spring Security es una herramienta esencial para asegurar nuestras aplicaciones Spring y protegerlas contra vulnerabilidades y ataques de seguridad.
+
+=== UserDetailsService
+
+En Spring Security, UserDetailsService es una interfaz que se utiliza para cargar la información de los usuarios y sus roles desde una fuente de datos, como una base de datos o un servicio web.
+
+Cuando un usuario intenta autenticarse en nuestra aplicación, Spring Security utiliza el UserDetailsService para cargar la información del usuario y verificar sus credenciales. Si las credenciales son válidas, Spring Security crea un objeto Authentication con la información del usuario y lo almacena en el contexto de seguridad de la aplicación.
+
+Para implementar un UserDetailsService, debemos crear una clase que implemente la interfaz y sobrescribir el método loadUserByUsername, que se utiliza para cargar la información del usuario a partir de su nombre de usuario.
+
+En este método, podemos realizar consultas a la base de datos o a cualquier otro servicio de autenticación externo para obtener la información del usuario. La información del usuario debe ser devuelta en forma de un objeto UserDetails, que contiene información como el nombre de usuario, la contraseña, los roles y los permisos del usuario.
+
+.Aquí hay un ejemplo básico de cómo implementar un UserDetailsService en Spring Security:
+[source,java]
+----
+@Service
+public class CustomUserDetailsService implements UserDetailsService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return new CustomUserDetails(user);
+    }
+}
+----
+
+En este ejemplo, estamos cargando la información del usuario a partir de una base de datos utilizando el UserRepository, que es una interfaz que se encarga de las operaciones de CRUD en la tabla de usuarios. Después de cargar la información del usuario, estamos devolviendo un objeto CustomUserDetails, que es una clase que implementa la interfaz UserDetails y contiene la información del usuario y sus roles.
+
+.Aquí hay un ejemplo de cómo implementar un UserDetailsService en Spring Security que utiliza una base de datos para obtener la información del usuario:
+[source,java]
+----
+@Service
+public class CustomUserDetailsService implements UserDetailsService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(), user.getPassword(), getAuthorities(user));
+    }
+
+    private Collection<? extends GrantedAuthority> getAuthorities(User user) {
+        String[] userRoles = user.getRoles().stream().map((role) -> role.getName()).toArray(String[]::new);
+        Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
+        return authorities;
+    }
+}
+----
+
+=== AuthenticationManager
+
+AuthenticationManager es una clase en el framework de seguridad de Spring que se encarga de manejar la autenticación en una aplicación web. Es responsable de tomar las credenciales del usuario, autenticarlas y crear un objeto de autenticación para el usuario si se ha autenticado correctamente.
+
+El proceso de autenticación puede variar dependiendo de la configuración de la aplicación, pero generalmente sigue los siguientes pasos:
+
+El usuario proporciona sus credenciales, como un nombre de usuario y una contraseña.
+El sistema valida las credenciales, generalmente mediante una comparación con información almacenada en una base de datos.
+Si las credenciales son válidas, se crea un objeto de autenticación para el usuario, que contiene detalles como el nombre de usuario, los roles y cualquier otra información relevante.
+El objeto de autenticación se almacena en el contexto de seguridad de la aplicación para que se pueda acceder posteriormente.
+Aquí hay un ejemplo de cómo se puede usar AuthenticationManager en una aplicación Spring Boot:
+
+Supongamos que tenemos una entidad "Usuario" en nuestra aplicación, que tiene propiedades como "nombre de usuario" y "contraseña". Además, tenemos una clase "UserService" que se encarga de interactuar con la base de datos y realizar la validación de credenciales.
+
+.Primero, definimos una configuración de seguridad básica en nuestra clase principal:
+[source,java]
+----
+@Configuration
+@EnableWebSecurity
+public class WebSecurityConfig {
+ 
+    @Autowired
+    private UserService userService;
+ 
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userService);
+    }
+ 
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+            .antMatchers("/admin/**").hasRole("ADMIN")
+            .antMatchers("/user/**").hasRole("USER")
+            .and().formLogin()
+            .and().logout()
+            .logoutSuccessUrl("/login?logout=true")
+            .invalidateHttpSession(true)
+            .clearAuthentication(true)
+            .deleteCookies("JSESSIONID");
+    }
+}
+----
+
+.Luego, en nuestra clase **UserService**, definimos el método *loadUserByUsername* para buscar al usuario en la base de datos y validar sus credenciales:
+[source,java]
+----
+@Service
+public class UserService implements UserDetailsService {
+ 
+    @Autowired
+    private UserRepository userRepository;
+ 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("Usuario no encontrado");
+        }
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                user.isEnabled(),
+                true,
+                true,
+                true,
+                getAuthorities(user.getRoles()));
+    }
+ 
+    private Collection<? extends GrantedAuthority> getAuthorities(
+            Collection<Role> roles) {
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
+                .collect(Collectors.toList());
+    }
+}
+----
+
+=== AuthenticationProvider
+AuthenticationProvider es una interfaz en Spring Security que se utiliza para autenticar solicitudes de seguridad en una aplicación web. Esta interfaz se encarga de validar las credenciales de un usuario y autenticarlo en la aplicación.
+
+AuthenticationProvider se utiliza en conjunto con AuthenticationManager para proporcionar la lógica de autenticación. AuthenticationManager utiliza uno o más proveedores de autenticación (AuthenticationProvider) para realizar la autenticación.
+
+La interfaz AuthenticationProvider tiene un único método llamado "authenticate", que toma como parámetro un objeto Authentication y devuelve un objeto Authentication si la autenticación es exitosa. Si la autenticación falla, el método lanza una excepción AuthenticationException.
+
+.Un ejemplo de implementación de un AuthenticationProvider en Spring Security sería el siguiente:
+[source,java]
+----
+public class MyAuthenticationProvider implements AuthenticationProvider {
+
+  @Autowired
+  private UserService userService;
+
+  @Override
+  public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    String username = authentication.getName();
+    String password = authentication.getCredentials().toString();
+    
+    User user = userService.findByUsername(username);
+
+    if (user == null) {
+      throw new BadCredentialsException("Usuario no encontrado");
+    }
+
+    if (!passwordEncoder.matches(password, user.getPassword())) {
+      throw new BadCredentialsException("Contraseña incorrecta");
+    }
+
+    List<GrantedAuthority> roles = new ArrayList<>();
+    roles.add(new SimpleGrantedAuthority(user.getRole().getName()));
+
+    return new UsernamePasswordAuthenticationToken(username, password, roles);
+  }
+
+  @Override
+  public boolean supports(Class<?> authentication) {
+    return authentication.equals(UsernamePasswordAuthenticationToken.class);
+  }
+}
+----
+
+=== PasswordEncoder
+
+PasswordEncoder en Spring Boot es una interfaz que se utiliza para cifrar y descifrar contraseñas. El objetivo de cifrar contraseñas es evitar que las contraseñas en texto plano sean almacenadas en una base de datos, lo que puede ser un problema de seguridad. En su lugar, se almacena el valor cifrado de la contraseña en la base de datos.
+
+Spring Boot proporciona varias implementaciones de la interfaz PasswordEncoder. Una de las implementaciones más comunes es BCryptPasswordEncoder. BCryptPasswordEncoder utiliza el algoritmo bcrypt para cifrar contraseñas. El algoritmo bcrypt es un algoritmo de cifrado de contraseñas sólido y seguro, que utiliza una técnica de "salting" (añadir una cadena aleatoria) para hacer que el cifrado sea más fuerte.
+
+Para utilizar PasswordEncoder en Spring Boot, primero debes crear una instancia de una implementación de la interfaz PasswordEncoder. 
+
+.Para usar, hay que importar la dependencia de Spring Security:
+[source,xml]
+----
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+----
+
+.Luego, en nuestra clase principal, podemos inyectar una instancia de PasswordEncoder en nuestro código:
+[source,java]
+----
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+}
+----
+
+.Ahora, puedes utilizar la instancia de PasswordEncoder en tus servicios de usuario (por ejemplo, UserService). En el siguiente ejemplo, utilizamos PasswordEncoder para cifrar la contraseña antes de almacenarla en la base de datos:
+[source,java]
+----
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    public void saveUser(User user) {
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        userRepository.save(user);
+    }
+}
+----
+
+.Por último, puedes utilizar PasswordEncoder en tus controladores de Spring. En el siguiente ejemplo, utilizamos PasswordEncoder para verificar que la contraseña proporcionada por el usuario coincide con la contraseña almacenada en la base de datos:
+[source,java]
+----
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class UserController {
+
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
+
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @PostMapping("/login")
+    public void login(@RequestBody LoginRequest loginRequest) {
+        User user = userService.findUserByUsername(loginRequest.getUsername());
+
+        if (user != null) {
+            if (passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+                // la contraseña coincide, inicia sesión
+            } else {
+                // la contraseña no coincide, muestra un mensaje de error
+            }
+        } else {
+            // el usuario no existe, muestra un mensaje de error
+        }
+    }
+}
+----
+
+.Un curl que nos permite probar el login:
+[source,shell]
+----
+curl -X POST -H "Content-Type: application/json" -d '{"username":"usuario","password":"contraseña"}' http://localhost:8080/login
+----
+
+=== AccessDecisionManager
+AccessDecisionManager es una interfaz que se utiliza para tomar decisiones de acceso a los recursos protegidos. Su función principal es determinar si un usuario tiene los permisos necesarios para acceder a un recurso determinado.
+
+AccessDecisionManager trabaja en conjunto con otros componentes de Spring Security, como los filtros de seguridad y los proveedores de autenticación, para determinar si un usuario puede acceder a un recurso. En particular, AccessDecisionManager se utiliza para tomar decisiones de acceso en el nivel de autorización después de que un usuario ha sido autenticado.
+
+AccessDecisionManager trabaja en conjunto con otros componentes de Spring Security, como los filtros de seguridad y los proveedores de autenticación, para determinar si un usuario puede acceder a un recurso. En particular, AccessDecisionManager se utiliza para tomar decisiones de acceso en el nivel de autorización después de que un usuario ha sido autenticado.
+
+.Para tomar una decisión de acceso, AccessDecisionManager toma en cuenta varios factores, incluyendo los siguientes:
+
+* La identidad del usuario que intenta acceder al recurso
+* Los permisos y roles asociados con el usuario
+* La configuración de seguridad del recurso que se está intentando acceder
+
+.AccessDecisionManager puede tomar una de tres decisiones posibles:
+
+* Permitir el acceso al recurso: esto significa que el usuario tiene los permisos necesarios para acceder al recurso y se le permitirá hacerlo.
+* Denegar el acceso al recurso: esto significa que el usuario no tiene los permisos necesarios para acceder al recurso y se le denegará el acceso.
+* Delegar la decisión a un componente diferente: esto significa que AccessDecisionManager no puede tomar una decisión definitiva y delegará la decisión a otro componente.
+
+La implementación predeterminada de AccessDecisionManager en Spring Security es AffirmativeBased, que sigue una lógica de "permiso concedido" para tomar decisiones de acceso. Esto significa que, en general, si un usuario tiene al menos un permiso que le permite acceder a un recurso determinado, se le permitirá el acceso.
+
+.Para utilizar AccessDecisionManager en Spring Boot, primero debes crear una instancia de una implementación de la interfaz AccessDecisionManager. En el siguiente ejemplo:
+[source,java]
+----
+@Configuration
+@EnableWebSecurity
+public class WebSecurityConfig {
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+            .antMatchers("/admin").hasRole("ADMIN")
+            .anyRequest().authenticated()
+            .and()
+            .formLogin()
+            .and()
+            .httpBasic();
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+            .withUser("usuario").password("contraseña").roles("USER")
+            .and()
+            .withUser("admin").password("contraseña").roles("ADMIN");
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AccessDecisionManager accessDecisionManager() {
+        return new AffirmativeBased(Arrays.asList(new RoleVoter()));
+    }
+}
+----
+
+.Aquí, estamos configurando la seguridad de nuestra aplicación de la siguiente manera:
+
+* "/admin" está protegido y solo los usuarios con el rol "ADMIN" pueden acceder a él.
+* Cualquier otra solicitud debe estar autenticada.
+* Estamos utilizando la autenticación en memoria, pero en una aplicación real, deberíamos utilizar un proveedor de autenticación más robusto.
+* Estamos usando un codificador de contraseñas BCryptPasswordEncoder para codificar las contraseñas.
+* Estamos creando un AccessDecisionManager usando la implementación AffirmativeBased y un RoleVoter.
+
+=== Casos de uso de Spring Security
+
+==== Autenticación básica
+
+La autenticación básica es un método de autenticación simple que se utiliza para proteger los recursos de una aplicación web. En este método, el cliente envía las credenciales de autenticación (nombre de usuario y contraseña) en cada solicitud HTTP. El servidor verifica las credenciales de autenticación y, si son válidas, devuelve el recurso solicitado.
+
+.Las dependencias necesarias para utilizar la autenticación básica en Spring Boot son las siguientes:
+[source,xml]
+----
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+----
+
+.Para utilizar la autenticación básica en Spring Boot, primero debes crear una instancia de la clase HttpBasicConfigurer. En el siguiente ejemplo:
+[source,java]
+----
+@Configuration
+@EnableWebSecurity
+public class WebSecurityConfig {
+
+    @Autowired private MyBasicAuthenticationEntryPoint authenticationEntryPoint;
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+          .inMemoryAuthentication()
+          .withUser("user1")
+          .password(passwordEncoder().encode("user1Pass"))
+          .authorities("ROLE_USER");
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+            .antMatchers("/securityNone")
+            .permitAll()
+            .anyRequest()
+            .authenticated()
+            .and()
+            .httpBasic()
+            .authenticationEntryPoint(authenticationEntryPoint);
+        http.addFilterAfter(new CustomFilter(), BasicAuthenticationFilter.class);
+        return http.build();
+    }
+    
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+}
+----
+
+.Para probarlo, podemos usar curl:
+[source,shell]
+----
+curl -i --user user1:user1Pass http://localhost:8080/spring-security-rest-basic-auth/api/foos/1
+----
+
+Por defecto, el BasicAuthenticationEntryPoint proporcionado por Spring Security devuelve una página completa para una respuesta 401 Unauthorized de vuelta al cliente. Esta representación HTML del error se muestra bien en un navegador. Por el contrario, no está bien adaptado para otros escenarios, como una API REST donde se puede preferir una representación json.
+
+.El nuevo entrypoint se define como un bean estándar:
+[source,java]
+----
+@Component
+public class MyBasicAuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
+
+    @Override
+    public void commence(
+      HttpServletRequest request, HttpServletResponse response, AuthenticationException authEx) 
+      throws IOException, ServletException {
+        response.addHeader("WWW-Authenticate", "Basic realm="" + getRealmName() + """);
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        PrintWriter writer = response.getWriter();
+        writer.println("HTTP Status 401 - " + authEx.getMessage());
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        setRealmName("Baeldung");
+        super.afterPropertiesSet();
+    }
+}
+----
+
+==== Manejo de sesiones
+
+En una aplicación Spring Boot, el manejo de sesiones se puede realizar de varias maneras. Una de las formas más comunes de manejar las sesiones es a través del uso de cookies de sesión.
+
+Cuando un usuario inicia sesión en una aplicación web, se crea una sesión en el servidor que contiene la información de la sesión, como el ID de sesión y cualquier dato adicional que se haya almacenado en la sesión. El servidor envía una cookie de sesión al navegador del usuario, que contiene el ID de sesión. El navegador envía la cookie de sesión en cada solicitud posterior, permitiendo que el servidor identifique la sesión del usuario.
+
+.Las dependencias necesarias para utilizar el manejo de sesiones en Spring Boot son las siguientes:
+[source,xml]
+----
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+----
+
+.Para utilizar el manejo de sesiones en Spring Boot, primero debes crear una instancia de la clase HttpSessionConfigurer. En el siguiente ejemplo:
+[source,java]
+----
+@Configuration
+@EnableWebSecurity
+public class WebSecurityConfig {
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .authorizeRequests()
+                .antMatchers("/login").permitAll()
+                .anyRequest().authenticated()
+            .and()
+            .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/home")
+                .permitAll()
+            .and()
+            .logout()
+                .logoutUrl("/logout")
+                .permitAll()
+            .and()
+            .sessionManagement()
+                .invalidSessionUrl("/login?expired")
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(true);
+    }
+}
+----
+
+.El controlador de inicio de sesión se define de la siguiente manera:
+[source,java]
+----
+@Controller
+public class HomeController {
+
+    @GetMapping("/login")
+    public String showLoginForm(Model model) {
+        return "login";
+    }
+
+    @GetMapping("/home")
+    public String showHomePage() {
+        return "home";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) throws ServletException {
+        request.logout();
+        return "redirect:/login?logout";
+    }
+
+}
+----
+
+.login.html
+[source,html]
+----
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <h1>Login</h1>
+    <div th:if="${param.error}">
+        <p>Invalid username and password.</p>
+    </div>
+    <div th:if="${param.logout}">
+        <p>You have been logged out.</p>
+    </div>
+    <form th:action="@{/login}" method="post">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" autofocus required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div>
+            <button type="submit">Login</button>
+        </div>
+    </form>
+</body>
+</html>
+----
+
+.home.html
+[source,html]
+----
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <h1>Welcome!</h1>
+    <p>You are now logged in.</p>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</body>
+</html>
+----
+
+==== Beans de sesión (Session Scoped Beans)
+En Spring Framework, un bean con ámbito de sesión (Session Scoped Bean) es un objeto que está asociado a una sesión HTTP individual. Esto significa que una instancia de bean se crea y se almacena en la sesión HTTP del usuario cuando se crea una nueva sesión, y se destruye cuando la sesión termina. Los beans con ámbito de sesión son útiles cuando se necesita mantener el estado entre múltiples solicitudes de un mismo usuario.
+
+.Las dependencias necesarias para utilizar los beans de sesión en Spring Boot son las siguientes:
+[source,xml]
+----
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+----
+
+.Para utilizar los beans de sesión en Spring Boot, primero hay que crear una clase de configuración que contenga el bean de sesión. En el siguiente ejemplo:
+[source,java]
+----
+@Configuration
+@ComponentScan(basePackages = {"com.example.demo"})
+public class AppConfig {
+    // ...
+}
+----
+
+.Para crear un bean de sesión, debemos utilizar la anotación @SessionScope. En el siguiente ejemplo:
+[source,java]
+----
+@Component
+@SessionScope
+public class SessionBean {
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+----
+
+.Para utilizar el bean de sesión, debemos inyectarlo en el controlador. En el siguiente ejemplo:
+[source,java]
+----
+@Controller
+public class HomeController {
+
+    @Autowired
+    private SessionBean sessionBean;
+
+    @GetMapping("/")
+    public String showHomePage(Model model) {
+        model.addAttribute("name", sessionBean.getName());
+        return "home";
+    }
+
+    @PostMapping("/save")
+    public String saveName(@RequestParam String name) {
+        sessionBean.setName(name);
+        return "redirect:/";
+    }
+
+}
+----
+
+==== Obtener información del usuario en Spring Security
+
+Spring Security proporciona una forma de obtener información del usuario actualmente autenticado en la aplicación. Esta información se puede utilizar para realizar acciones específicas para el usuario actualmente autenticado.
+
+.Las dependencias necesarias para obtener información del usuario en Spring Security son las siguientes:
+[source,xml]
+----
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-test</artifactId>
+    <scope>test</scope>
+</dependency>
+----
+
+.Configuramos la seguridad de nuestra aplicación de la siguiente manera:
+[source,java]
+----
+@Configuration
+@EnableWebSecurity
+public class WebSecurityConfig {
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/secured").authenticated()
+            .and()
+            .formLogin();
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+            .inMemoryAuthentication()
+                .withUser("user").password("password").roles("USER");
+    }
+}
+----
+
+.Creamos un controlador para probar la funcionalidad:
+[source,java]
+----
+@RestController
+public class SecuredController {
+
+    @GetMapping("/secured")
+    public String securedEndpoint() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        return "Hello, " + username + "!";
+    }
+}
+----
+
+.Para probarlo, podemos usar curl:
+[source,shell]
+----
+curl -i -X GET http://localhost:8080/secured
+----
+
+== Testing con Spring Boot
+
+En Spring Boot, el testing se puede realizar mediante el uso del framework de pruebas JUnit, que es muy popular en la comunidad de desarrollo de Java. Spring Boot también proporciona una serie de herramientas y clases de ayuda para facilitar la escritura de pruebas de unidad, integración y end-to-end.
+
+En Spring Boot, hay varias formas de hacer testing, dependiendo de las necesidades y objetivos de la aplicación. A continuación, te presento algunas de las formas más comunes de hacer testing en Spring Boot:
+
+* *Pruebas unitarias*: Son pruebas que se realizan para comprobar el correcto funcionamiento de un método o clase aislada. En Spring Boot, las pruebas unitarias se realizan utilizando JUnit y Mockito.
+* *Pruebas de integración*: Son pruebas que se realizan para comprobar el correcto funcionamiento de la interacción entre diferentes componentes de la aplicación. En Spring Boot, las pruebas de integración se realizan utilizando Spring Test Framework, que permite cargar el contexto de la aplicación y realizar pruebas de extremo a extremo.
+* *Pruebas de aceptación*: Son pruebas que se realizan para comprobar que la aplicación cumple con los requisitos funcionales y no funcionales definidos por el cliente o el usuario final. En Spring Boot, las pruebas de aceptación se realizan utilizando herramientas de automatización de pruebas, como Cucumber o Selenium.
+* *Pruebas de rendimiento*: Son pruebas que se realizan para comprobar el rendimiento de la aplicación en diferentes escenarios de carga y tráfico. En Spring Boot, las pruebas de rendimiento se realizan utilizando herramientas de benchmarking, como JMeter o Gatling.
+
+Pruebas de seguridad: Son pruebas que se realizan para comprobar la seguridad de la aplicación, detectar vulnerabilidades y asegurar la protección de los datos y la privacidad de los usuarios. En Spring Boot, las pruebas de seguridad se realizan utilizando herramientas de análisis estático y dinámico, como SonarQube o OWASP ZAP.
+
+=== Pruebas unitarias con JUnit
+Aquí hay un ejemplo básico de cómo realizar pruebas de unidad en una aplicación Spring Boot utilizando JUnit:
+
+.Supongamos que tienes una clase de servicio llamada "UserService" que contiene un método llamado "getUserById" que recibe un id de usuario y devuelve un objeto User correspondiente a ese id.
+[source,java]
+----
+@Service
+public class UserService {
+
+    public User getUserById(Long id) {
+        // ...
+    }
+}
+----
+
+.Ahora queremos probar que el método "getUserById" funciona correctamente. Aquí está el código de prueba utilizando JUnit:
+[source,java]
+----
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class UserServiceTest {
+    
+    @Autowired
+    private UserService userService;
+    
+    @Test
+    public void testGetUserById() {
+        User user = userService.getUserById(1L);
+        assertNotNull(user);
+        assertEquals("John", user.getName());
+        assertEquals("Doe", user.getSurname());
+    }
+    
+}
+----
+
+En este ejemplo, estamos utilizando la anotación "@RunWith(SpringRunner.class)" para indicar que queremos ejecutar las pruebas utilizando el contexto de Spring. También utilizamos la anotación "@SpringBootTest" para indicar que queremos cargar el contexto completo de la aplicación Spring Boot para nuestras pruebas.
+
+Luego, en el método de prueba "testGetUserById", utilizamos la anotación "@Autowired" para inyectar la instancia de UserService en la prueba. Luego, llamamos al método "getUserById" y realizamos algunas aserciones para comprobar que el objeto User devuelto por el método es el correcto.
+
+==== La sintaxis de las pruebas unitarias con JUnit
+
+JUnit es un framework de testing para aplicaciones Java, que permite realizar pruebas unitarias de manera sencilla y eficiente. A continuación, te presento un resumen de la sintaxis básica de JUnit:
+
+* Anotaciones: JUnit utiliza una serie de anotaciones para marcar los métodos de prueba y proporcionar información adicional sobre las pruebas. Las anotaciones más comunes son:
+** @Test: Indica que un método es una prueba unitaria.
+** @Before: Indica que un método debe ejecutarse antes de cada prueba.
+** @After: Indica que un método debe ejecutarse después de cada prueba.
+** @BeforeClass: Indica que un método debe ejecutarse antes de que se ejecuten todas las pruebas en una clase.
+** @AfterClass: Indica que un método debe ejecutarse después de que se ejecuten todas las pruebas en una clase.
+* Asserts: JUnit proporciona una serie de métodos Assert para verificar que los resultados de las pruebas sean los esperados. Los métodos más comunes son:
+** assertEquals: Compara dos valores y verifica que sean iguales.
+** assertTrue/assertFalse: Verifica si una condición es verdadera o falsa.
+** assertNull/assertNotNull: Verifica si un objeto es nulo o no nulo.
+** assertSame/assertNotSame: Verifica si dos objetos son iguales o no iguales.
+* Ejecución de pruebas: Para ejecutar pruebas en JUnit, se crea una clase de prueba que contiene uno o más métodos anotados con @Test. Luego, se ejecuta la prueba utilizando un runner, como el runner predeterminado de JUnit, que proporciona informes sobre el estado de las pruebas.
+
+=== Pruebas de integración con Spring Test Framework
+
+En Spring Boot, las pruebas de integración se realizan utilizando el framework Spring Test, que permite cargar el contexto de la aplicación y realizar pruebas de extremo a extremo. 
+
+Para realizar pruebas de integración en Spring Boot se crea una clase de prueba que carga el contexto de la aplicación y se configura el entorno de prueba utilizando anotaciones como @TestPropertySource y @ActiveProfiles. Se pueden inyectar dependencias utilizando @Autowired o @MockBean y se realizan pruebas utilizando los métodos de aserción de JUnit o herramientas adicionales como MockMvc.
+
+.Crear una clase de prueba: Para realizar pruebas de integración en Spring Boot, se crea una clase de prueba en la que se anota con la anotación @RunWith(SpringRunner.class), que indica que se utilizará el runner de Spring Test.
+[source,java]
+----
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class MyIntegrationTest {
+   // Aquí van los métodos de prueba
+}
+----
+
+.Cargar el contexto de la aplicación: Para cargar el contexto de la aplicación en la clase de prueba, se utiliza la anotación @SpringBootTest, que indica que se debe cargar la configuración completa de la aplicación.
+[source,java]
+----
+@SpringBootTest
+public class MyIntegrationTest {
+   // Aquí van los métodos de prueba
+}
+----
+
+.Configurar el entorno de prueba: Para configurar el entorno de prueba, se pueden utilizar las anotaciones @TestPropertySource y @ActiveProfiles. La anotación @TestPropertySource permite cargar propiedades específicas para la prueba, mientras que la anotación @ActiveProfiles permite activar perfiles específicos de la aplicación.
+[source,java]
+----
+@SpringBootTest
+@TestPropertySource(locations="classpath:test.properties")
+@ActiveProfiles("test")
+public class MyIntegrationTest {
+   // Aquí van los métodos de prueba
+}
+----
+
+.Inyectar dependencias: Para acceder a los componentes de la aplicación, se pueden inyectar dependencias utilizando la anotación @Autowired o @MockBean. La anotación @Autowired permite inyectar una instancia real del componente, mientras que la anotación @MockBean permite inyectar un objeto simulado para pruebas.
+[source,java]
+----
+@SpringBootTest
+public class MyIntegrationTest {
+   @Autowired
+   private MyService myService;
+   
+   @MockBean
+   private MyRepository myRepository;
+   
+   // Aquí van los métodos de prueba
+}
+----
+
+.Realizar pruebas: Una vez que se ha configurado el entorno de prueba y se han inyectado las dependencias necesarias, se pueden realizar pruebas utilizando los métodos de aserción de JUnit o herramientas adicionales como MockMvc.
+[source,java]
+----
+@SpringBootTest
+public class MyIntegrationTest {
+   @Autowired
+   private MyService myService;
+   
+   @MockBean
+   private MyRepository myRepository;
+   
+   @Test
+   public void testMyService() {
+      // Configurar comportamiento simulado del repositorio
+      when(myRepository.findByName("foo")).thenReturn(new MyEntity("foo", 123));
+      
+      // Llamar al servicio y verificar resultado
+      MyEntity result = myService.findByName("foo");
+      assertEquals(result.getName(), "foo");
+      assertEquals(result.getValue(), 123);
+   }
+}
+----
+
+=== Pruebas de aceptación con Selenium
+Para realizar pruebas de aceptación en Spring Boot con Selenium, se necesita configurar el entorno de prueba con una clase de prueba que cargue el contexto de Spring Boot y utilizar métodos de Selenium para interactuar con la interfaz de usuario y verificar el resultado de las pruebas.
+
+Para realizar pruebas de aceptación en Spring Boot con Selenium, se pueden seguir los siguientes pasos:
+
+.Añadir dependencias: Para utilizar Selenium en una aplicación Spring Boot, es necesario añadir las siguientes dependencias en el archivo pom.xml:
+[source,xml]
+----
+<dependency>
+  <groupId>org.seleniumhq.selenium</groupId>
+  <artifactId>selenium-java</artifactId>
+  <version>3.141.59</version>
+</dependency>
+
+<dependency>
+  <groupId>org.seleniumhq.selenium</groupId>
+  <artifactId>selenium-chrome-driver</artifactId>
+  <version>3.141.59</version>
+</dependency>
+----
+
+.Crear una clase de prueba: Se crea una clase de prueba JUnit para realizar las pruebas de aceptación. Se utiliza la anotación @RunWith(SpringRunner.class) para cargar el contexto de Spring Boot y la anotación @SpringBootTest para indicar que se deben cargar todas las configuraciones de la aplicación.
+[source,java]
+----
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class MyAcceptanceTest {
+   // Aquí van los métodos de prueba
+}
+----
+
+.Configurar el entorno de prueba: Se utiliza la anotación @LocalServerPort para obtener el puerto aleatorio que se utiliza en la aplicación y la anotación @Before para crear el objeto WebDriver que se utilizará en las pruebas.
+[source,java]
+----
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class MyAcceptanceTest {
+   @LocalServerPort
+   private int port;
+   
+   private WebDriver driver;
+   
+   @Before
+   public void setUp() {
+      driver = new ChromeDriver();
+   }
+   
+   // Aquí van los métodos de prueba
+}
+----
+
+.Realizar pruebas: Se utilizan los métodos de Selenium para interactuar con la interfaz de usuario y verificar el resultado de las pruebas.
+[source,java]
+----
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class MyAcceptanceTest {
+   @LocalServerPort
+   private int port;
+   
+   private WebDriver driver;
+   
+   @Before
+   public void setUp() {
+      driver = new ChromeDriver();
+   }
+   
+   @After
+   public void tearDown() {
+      driver.quit();
+   }
+   
+   @Test
+   public void testMyPage() {
+      // Abrir la página y verificar título
+      driver.get("http://localhost:" + port + "/my-page");
+      assertEquals("My Page", driver.getTitle());
+      
+      // Rellenar formulario y enviar
+      WebElement input = driver.findElement(By.id("my-input"));
+      input.sendKeys("foo");
+      WebElement submit = driver.findElement(By.id("my-submit"));
+      submit.click();
+      
+      // Verificar resultado
+      WebElement result = driver.findElement(By.id("my-result"));
+      assertEquals("foo", result.getText());
+   }
+}
+----
+
+=== Pruebas de rendimiento en Spring Boot
+Las pruebas de rendimiento en Spring Boot se realizan para evaluar el comportamiento de una aplicación bajo diferentes cargas de trabajo y para identificar cuellos de botella y áreas de mejora en términos de rendimiento. A continuación, se describen los pasos generales para realizar pruebas de rendimiento en Spring Boot:
+
+* *Identificar los casos de uso*: Identificar los casos de uso de la aplicación que se desean probar y crear los escenarios correspondientes para simular diferentes cargas de trabajo. Por ejemplo, se puede simular el acceso simultáneo a la aplicación de cientos de usuarios, realizar solicitudes de alta carga en la base de datos o enviar solicitudes de red pesadas.
+
+* *Preparar los datos*: Preparar los datos necesarios para las pruebas, como los datos de usuario, los datos de prueba de la base de datos, etc. Asegurarse de que los datos estén limpios y sean coherentes para obtener resultados precisos y confiables.
+
+* *Configuración del entorno*: Configurar el entorno para realizar las pruebas, que incluye la configuración del servidor de aplicaciones, la configuración de la base de datos, la configuración de la red, etc.
+
+* *Ejecutar las pruebas*: Ejecutar las pruebas con la ayuda de herramientas de pruebas de rendimiento, como JMeter, Gatling, Apache Bench, etc. En estas pruebas, se simula la carga de trabajo para el escenario de prueba correspondiente y se miden diferentes parámetros, como el tiempo de respuesta, la tasa de errores, la carga de CPU, la memoria y el rendimiento de la base de datos.
+
+* *Analizar los resultados*: Analizar los resultados de las pruebas para identificar áreas problemáticas en la aplicación y determinar cómo se pueden mejorar. Estos resultados también se pueden utilizar para establecer umbrales de rendimiento y comparar el rendimiento con versiones anteriores de la aplicación.
+
+* *Optimización y ajuste*: Utilizar los resultados de las pruebas para optimizar y ajustar la aplicación para mejorar el rendimiento. Esto puede implicar ajustar la configuración del servidor, ajustar la configuración de la base de datos, optimizar el código, etc.
+
